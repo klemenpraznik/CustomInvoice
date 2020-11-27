@@ -1,0 +1,78 @@
+﻿@model CustomInvoice.WebApp.ViewModels.PartnerFormViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+@if (Model.Partner == null)
+{
+    <h1>Nov</h1>
+}
+else
+{
+    <h1>Uredi</h1>
+}
+
+<h4>PartnerFormViewModel</h4>
+<hr />
+@using (Html.BeginForm("Save", "Partner"))
+{
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Save">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" />
+                <div class="form-group">
+                    <label asp-for="Partner.Name" class="control-label"></label>
+                    <input asp-for="Partner.Name" class="form-control" />
+                    <span asp-validation-for="Partner.Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Partner.StreetName" class="control-label"></label>
+                    <input asp-for="Partner.StreetName" class="form-control" />
+                    <span asp-validation-for="Partner.StreetName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Partner.StreetNumber" class="control-label"></label>
+                    <input asp-for="Partner.StreetNumber" class="form-control" />
+                    <span asp-validation-for="Partner.StreetNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Partner.PostNumber" class="control-label"></label>
+                    <input asp-for="Partner.PostNumber" class="form-control" />
+                    <span asp-validation-for="Partner.PostNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Partner.City" class="control-label"></label>
+                    <input asp-for="Partner.City" class="form-control" />
+                    <span asp-validation-for="Partner.City" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Partner.Country" class="control-label"></label>
+                    <input asp-for="Partner.Country" class="form-control" />
+                    <span asp-validation-for="Partner.Country" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Partner.Email" class="control-label"></label>
+                    <input asp-for="Partner.Email" class="form-control" />
+                    <span asp-validation-for="Partner.Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Partner.PhoneNumber" class="control-label"></label>
+                    <input asp-for="Partner.PhoneNumber" class="form-control" />
+                    <span asp-validation-for="Partner.PhoneNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+}
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

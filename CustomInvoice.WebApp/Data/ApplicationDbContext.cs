@@ -4,6 +4,7 @@ using System.Text;
 using CustomInvoice.WebApp.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using CustomInvoice.WebApp.ViewModels;
 
 namespace CustomInvoice.WebApp.Data
 {
@@ -16,6 +17,8 @@ namespace CustomInvoice.WebApp.Data
         {
 
         }
+
+        public DbSet<CustomInvoice.WebApp.ViewModels.PartnerFormViewModel> PartnerFormViewModel { get; set; }
         
     }
 

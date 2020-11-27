@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CustomInvoice.WebApp.Data;
 using CustomInvoice.WebApp.Models;
+using CustomInvoice.WebApp.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -37,70 +38,70 @@ namespace CustomInvoice.WebApp.Controllers
         // GET: PartnerController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
-        }
-
-        // GET: PartnerController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: PartnerController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
+            Partner selectedPartner = GetPartners().SingleOrDefault(p => p.Id == id);
+            if (selectedPartner == null)
             {
-                return RedirectToAction(nameof(Index));
+                return NotFound();
             }
-            catch
-            {
-                return View();
-            }
+
+            return View(selectedPartner);
         }
 
-        // GET: PartnerController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            PartnerFormViewModel viewModel = new PartnerFormViewModel();
+            viewModel.Id = id;
+            viewModel.Partner = GetPartners().SingleOrDefault(p => p.Id == id);
+            if (viewModel.Partner == null)
+            {
+                return NotFound();
+            }
+
+            return View(viewModel);
         }
 
-        // POST: PartnerController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult New()
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            return View("Edit", new PartnerFormViewModel());
         }
 
-        // GET: PartnerController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            Partner selectedPartner = GetPartners().SingleOrDefault(p => p.Id == id);
+            if (selectedPartner == null)
+            {
+                return NotFound();
+            }
+            _context.Partners.Remove(selectedPartner);
+            _context.SaveChanges();
+            return RedirectToAction("Index", "Home");
         }
 
-        // POST: PartnerController/Delete/5
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Save(PartnerFormViewModel partnerForm)
         {
-            try
+            if (partnerForm.Id == 0)
             {
-                return RedirectToAction(nameof(Index));
+                _context.Partners.Add(partnerForm.Partner);
             }
-            catch
+            else
             {
-                return View();
+                var partnerInDb = _context.Partners.Single(p => p.Id == partnerForm.Id);
+
+                partnerInDb.Name = partnerForm.Partner.Name;
+                partnerInDb.Email = partnerForm.Partner.Email;
+                partnerInDb.PhoneNumber = partnerForm.Partner.PhoneNumber;
+                partnerInDb.StreetName = partnerForm.Partner.StreetName;
+                partnerInDb.StreetNumber = partnerForm.Partner.StreetNumber;
+                partnerInDb.PostNumber = partnerForm.Partner.PostNumber;
+                partnerInDb.City = partnerForm.Partner.City;
+                partnerInDb.Country = partnerForm.Partner.Country;
             }
+            _context.SaveChanges();
+            return RedirectToAction("Index", "Partner");
         }
+
     }
 }
