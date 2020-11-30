@@ -8,27 +8,11 @@
     <div class="card card-custom">
         <div class="card-header">
             <h3 class="card-title">
-                @Html.DisplayNameFor(model => model.Name)
+                O partnerju - @Model.Name
             </h3>
-            <div style="display: grid; align-items: center;">
-                <a asp-action="New" class="btn btn-primary">Dodaj partnerja</a>
-            </div>
-            @*<p>
-                    <a asp-action="New">Dodaj</a>
-                </p>*@
         </div>
         <div class="card-body">
-
-        </div>
-    </div>
-</div>
- 
-
-            <h1>Podrobnosti</h1>
-
             <div>
-                <h4>Partner</h4>
-                <hr />
                 <dl class="row">
                     <dt class="col-sm-2">
                         @Html.DisplayNameFor(model => model.Name)
@@ -80,7 +64,10 @@
                     </dd>
                 </dl>
             </div>
-            <div>
-                <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-                <a asp-action="Index">Back to List</a>
-            </div>
+        </div>
+        <div class="card-footer">
+            <a class="btn btn-primary" asp-action="Index">Nazaj</a>
+            <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@Model.Id">Uredi</a>
+        </div>
+    </div>
+</div>
