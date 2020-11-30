@@ -1,0 +1,18 @@
+﻿@page
+@model ConfirmEmailModel
+@{
+    ViewData["Title"] = "Potrditev";
+}
+
+<div class="col-lg-6" style="margin: auto">
+    <div class="card card-custom">
+        <div class="card-header">
+            <h3 class="card-title">
+                Vaš email naslov je biu uspešno potrjen.
+            </h3>
+        </div>
+        <div class="card-body">
+            <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-secondary">Prijava</a>
+        </div>
+    </div>
+</div>
