@@ -6,8 +6,8 @@ namespace CustomInvoice.WebApp.Data.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Manufacturers");
+            //migrationBuilder.DropTable(
+            //name: "Manufacturers");
 
             migrationBuilder.CreateTable(
                 name: "Partners",
