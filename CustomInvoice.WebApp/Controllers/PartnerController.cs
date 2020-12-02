@@ -74,7 +74,7 @@ namespace CustomInvoice.WebApp.Controllers
             }
             _context.Partners.Remove(selectedPartner);
             _context.SaveChanges();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Partner");
         }
 
 
