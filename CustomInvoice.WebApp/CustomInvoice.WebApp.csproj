@@ -26,6 +26,20 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\theme\css\fonts\%40fortawesome\fa-brands-400.woff2" />
+    <None Include="wwwroot\theme\css\fonts\%40fortawesome\fa-regular-400.woff2" />
+    <None Include="wwwroot\theme\css\fonts\%40fortawesome\fa-solid-900.woff2" />
+    <None Include="wwwroot\theme\css\fonts\flaticon2\Flaticon2.woff2" />
+    <None Include="wwwroot\theme\css\fonts\keenthemes-icons\Ki.woff2" />
+    <None Include="wwwroot\theme\css\fonts\line-awesome\fa-brands-400.woff2" />
+    <None Include="wwwroot\theme\css\fonts\line-awesome\fa-regular-400.woff2" />
+    <None Include="wwwroot\theme\css\fonts\line-awesome\fa-solid-900.woff2" />
+    <None Include="wwwroot\theme\css\fonts\line-awesome\la-brands-400.woff2" />
+    <None Include="wwwroot\theme\css\fonts\line-awesome\la-regular-400.woff2" />
+    <None Include="wwwroot\theme\css\fonts\line-awesome\la-solid-900.woff2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.8" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.10" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.10" />
