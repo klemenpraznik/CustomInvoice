@@ -1,0 +1,55 @@
+﻿@model CustomInvoice.WebApp.ViewModels.CategoryFormViewModel
+
+@{
+    ViewData["Title"] = "Urejanje";
+}
+
+<div class="row col-lg-12">
+    <div class="card card-custom col-lg-12">
+        @if (Model.Category == null)
+        {
+            <div class="card-header">
+                <h3 class="card-title">
+                    Dodajanje nove kategorije
+                </h3>
+            </div>
+        }
+        else
+        {
+            <div class="card-header">
+                <h3 class="card-title">
+                    Urejanje kategorije - @Model.Category.Name
+                </h3>
+            </div>
+        }
+
+        @using (Html.BeginForm("Save", "Category"))
+        {
+            <!--begin::Form-->
+            <form asp-action="Save">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="card-body">
+                    <input type="hidden" asp-for="Id" />
+                    <div class="form-group">
+                        <label asp-for="Category.Name" class="control-label"></label>
+                        <input asp-for="Category.Name" class="form-control" />
+                        <span asp-validation-for="Category.Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Category.Description" class="control-label"></label>
+                        <input asp-for="Category.Description" class="form-control" />
+                        <span asp-validation-for="Category.Description" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <input type="submit" value="Shrani" class="btn btn-primary" />
+                    <a asp-area="" asp-controller="Category" asp-action="Index" class="btn btn-secondary">Prekliči</a>
+                </div>
+            </form>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
