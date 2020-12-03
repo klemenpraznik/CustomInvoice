@@ -12,6 +12,7 @@ namespace CustomInvoice.WebApp.Data
     {
         public DbSet<Partner> Partners { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Client> Clients { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
