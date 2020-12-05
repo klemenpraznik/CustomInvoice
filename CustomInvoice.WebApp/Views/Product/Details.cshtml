@@ -1,0 +1,87 @@
+﻿@model CustomInvoice.WebApp.Models.Product
+
+@{
+    ViewData["Title"] = "O izdelku / storitvi";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card card-custom">
+            <div class="card-header">
+                <h3 class="card-title">
+                    O izdelku / storitvi - @Model.ShortName
+                </h3>
+            </div>
+            <div class="card-body">
+                <div>
+                    <dl class="row">
+                        <dt class="col-sm-2">
+                            @Html.DisplayNameFor(model => model.Name)
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.Name)
+                        </dd>
+                        <dt class="col-sm-2">
+                            @Html.DisplayNameFor(model => model.ShortName)
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.ShortName)
+                        </dd>
+                        <dt class="col-sm-2">
+                            @Html.DisplayNameFor(model => model.Manufacturer)
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.Manufacturer)
+                        </dd>
+                        <dt class="col-sm-2">
+                            @Html.DisplayNameFor(model => model.Partner)
+                        </dt>
+                        <dd class="col-sm-10">
+                            <a href="/partner/details/@Model.PartnerId">@Html.DisplayFor(model => model.Partner.Name)</a>
+                        </dd>
+                        <dt class="col-sm-2">
+                            Kategorija
+                        </dt>
+                        <dd class="col-sm-10">
+                            <a href="/category/details/@Model.CategoryId">@Html.DisplayFor(model => model.Category.Name)</a>
+                        </dd>
+                        <dt class="col-sm-2">
+                            @Html.DisplayNameFor(model => model.WarrantyInMonths)
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.WarrantyInMonths)
+                        </dd>
+                        <dt class="col-sm-2">
+                            @Html.DisplayNameFor(model => model.Type)
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.Type)
+                        </dd>
+                        <dt class="col-sm-2">
+                            @Html.DisplayNameFor(model => model.UnitOfMeasure)
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.UnitOfMeasure)
+                        </dd>
+                        <dt class="col-sm-2">
+                            @Html.DisplayNameFor(model => model.PurchasePrice)
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.PurchasePrice) €
+                        </dd>
+                        <dt class="col-sm-2">
+                            @Html.DisplayNameFor(model => model.SellingPrice)
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.SellingPrice) €
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+            <div class="card-footer">
+                <a class="btn btn-primary" asp-action="Index">Nazaj</a>
+                <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@Model.Id">Uredi</a>
+            </div>
+        </div>
+    </div>
+</div>
