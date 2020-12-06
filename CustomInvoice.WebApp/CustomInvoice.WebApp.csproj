@@ -23,12 +23,6 @@
   <ItemGroup>
     <Compile Remove="Data\Migrations\20201202113202_partners-dummy-data.cs" />
     <Compile Remove="Data\Migrations\20201202113202_partners-dummy-data.Designer.cs" />
-    <Compile Remove="Data\Migrations\20201203171836_test.cs" />
-    <Compile Remove="Data\Migrations\20201203171836_test.Designer.cs" />
-    <Compile Remove="Data\Migrations\20201203174148_client-table.cs" />
-    <Compile Remove="Data\Migrations\20201203174148_client-table.Designer.cs" />
-    <Compile Remove="Data\Migrations\20201205133611_product-table.cs" />
-    <Compile Remove="Data\Migrations\20201205133611_product-table.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
