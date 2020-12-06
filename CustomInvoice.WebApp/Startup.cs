@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using CustomInvoice.WebApp.Controllers.API_controllers;
+using System.Globalization;
 
 namespace CustomInvoice.WebApp
 {
@@ -66,6 +67,11 @@ namespace CustomInvoice.WebApp
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseRequestLocalization();
+
+            CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("SI");
+            CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("SI");
 
             app.UseEndpoints(endpoints =>
             {

@@ -4,14 +4,16 @@ using CustomInvoice.WebApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CustomInvoice.WebApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201203174220_client-table")]
+    partial class clienttable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -66,8 +68,8 @@ namespace CustomInvoice.WebApp.Data.Migrations
                         .HasMaxLength(20);
 
                     b.Property<string>("PostNumber")
-                        .HasColumnType("nvarchar(10)")
-                        .HasMaxLength(10);
+                        .HasColumnType("nvarchar(8)")
+                        .HasMaxLength(8);
 
                     b.Property<string>("RegistrationNumber")
                         .HasColumnType("nvarchar(max)");
@@ -77,8 +79,8 @@ namespace CustomInvoice.WebApp.Data.Migrations
                         .HasMaxLength(50);
 
                     b.Property<string>("StreetNumber")
-                        .HasColumnType("nvarchar(10)")
-                        .HasMaxLength(10);
+                        .HasColumnType("nvarchar(5)")
+                        .HasMaxLength(5);
 
                     b.Property<string>("Type")
                         .IsRequired()
@@ -136,57 +138,6 @@ namespace CustomInvoice.WebApp.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Partners");
-                });
-
-            modelBuilder.Entity("CustomInvoice.WebApp.Models.Product", b =>
-                {
-                    b.Property<byte>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("tinyint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<byte?>("CategoryId")
-                        .HasColumnType("tinyint");
-
-                    b.Property<string>("Manufacturer")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(150)")
-                        .HasMaxLength(150);
-
-                    b.Property<byte?>("PartnerId")
-                        .HasColumnType("tinyint");
-
-                    b.Property<double>("PurchasePrice")
-                        .HasColumnType("float");
-
-                    b.Property<double>("SellingPrice")
-                        .HasColumnType("float");
-
-                    b.Property<string>("ShortName")
-                        .HasColumnType("nvarchar(15)")
-                        .HasMaxLength(15);
-
-                    b.Property<string>("Type")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UnitOfMeasure")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("WarrantyInMonths")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
-
-                    b.HasIndex("PartnerId");
-
-                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("CustomInvoice.WebApp.ViewModels.PartnerFormViewModel", b =>
@@ -404,17 +355,6 @@ namespace CustomInvoice.WebApp.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("CustomInvoice.WebApp.Models.Product", b =>
-                {
-                    b.HasOne("CustomInvoice.WebApp.Models.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId");
-
-                    b.HasOne("CustomInvoice.WebApp.Models.Partner", "Partner")
-                        .WithMany()
-                        .HasForeignKey("PartnerId");
                 });
 
             modelBuilder.Entity("CustomInvoice.WebApp.ViewModels.PartnerFormViewModel", b =>

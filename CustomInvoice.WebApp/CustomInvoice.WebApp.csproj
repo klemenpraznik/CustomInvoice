@@ -29,9 +29,24 @@
     <Compile Remove="Data\Migrations\20201203174148_client-table.Designer.cs" />
     <Compile Remove="Data\Migrations\20201205133611_product-table.cs" />
     <Compile Remove="Data\Migrations\20201205133611_product-table.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201206112621_product-table.cs" />
+    <Compile Remove="Data\Migrations\20201206112621_product-table.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201206113048_product-table.cs" />
+    <Compile Remove="Data\Migrations\20201206113048_product-table.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201206113306_product-table.cs" />
+    <Compile Remove="Data\Migrations\20201206113306_product-table.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201206113434_product-table.cs" />
+    <Compile Remove="Data\Migrations\20201206113434_product-table.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201206113702_product-table.cs" />
+    <Compile Remove="Data\Migrations\20201206113702_product-table.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201206114138_product-table.cs" />
+    <Compile Remove="Data\Migrations\20201206114138_product-table.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Views\Product\Details.cshtml" />
+    <None Include="Views\Product\Edit.cshtml" />
+    <None Include="Views\Product\Index.cshtml" />
     <None Include="wwwroot\theme\css\fonts\%40fortawesome\fa-brands-400.woff2" />
     <None Include="wwwroot\theme\css\fonts\%40fortawesome\fa-regular-400.woff2" />
     <None Include="wwwroot\theme\css\fonts\%40fortawesome\fa-solid-900.woff2" />
