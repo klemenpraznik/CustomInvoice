@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CustomInvoice.WebApp.Data;
 using CustomInvoice.WebApp.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -98,6 +99,7 @@ namespace CustomInvoice.WebApp.Controllers.API_controllers
         //    return Ok();
         //}
 
+        [Authorize]
         [HttpDelete("{id}")]
         public ActionResult DeleteProduct(int id)
         {

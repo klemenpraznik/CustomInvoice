@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CustomInvoice.WebApp.Data;
 using CustomInvoice.WebApp.Models;
 using CustomInvoice.WebApp.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -35,6 +36,7 @@ namespace CustomInvoice.WebApp.Controllers
             return View("Index");
         }
 
+        [Authorize]
         public ActionResult Details(int id)
         {
             var selectedProduct = GetProducts().SingleOrDefault(p => p.Id == id);
@@ -49,6 +51,7 @@ namespace CustomInvoice.WebApp.Controllers
             return View(selectedProduct);
         }
 
+        [Authorize]
         public ActionResult Edit(int id)
         {
             var product = _context.Products.SingleOrDefault(p => p.Id == id);
@@ -68,12 +71,13 @@ namespace CustomInvoice.WebApp.Controllers
             return View(viewModel);
         }
 
+        [Authorize]
         public ActionResult New()
         {
             return View("Edit", new ProductFormViewModel() { CategoriesList = _context.Categories, PartnersList = _context.Partners });
         }
 
-
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Save(ProductFormViewModel productForm)

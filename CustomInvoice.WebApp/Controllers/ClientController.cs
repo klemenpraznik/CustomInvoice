@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 using CustomInvoice.WebApp.Data;
 using CustomInvoice.WebApp.Models;
 using CustomInvoice.WebApp.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CustomInvoice.WebApp.Controllers
 {
+    [Authorize]
     public class ClientController : Controller
     {
         private ApplicationDbContext _context;

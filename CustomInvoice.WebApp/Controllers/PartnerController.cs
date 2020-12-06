@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CustomInvoice.WebApp.Data;
 using CustomInvoice.WebApp.Models;
 using CustomInvoice.WebApp.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -35,6 +36,7 @@ namespace CustomInvoice.WebApp.Controllers
             return View("Index", GetPartners());
         }
 
+        [Authorize]
         // GET: PartnerController/Details/5
         public ActionResult Details(int id)
         {
@@ -47,6 +49,7 @@ namespace CustomInvoice.WebApp.Controllers
             return View(selectedPartner);
         }
 
+        [Authorize]
         public ActionResult Edit(int id)
         {
             PartnerFormViewModel viewModel = new PartnerFormViewModel();
@@ -60,11 +63,13 @@ namespace CustomInvoice.WebApp.Controllers
             return View(viewModel);
         }
 
+        [Authorize]
         public ActionResult New()
         {
             return View("Edit", new PartnerFormViewModel());
         }
 
+        [Authorize]
         public ActionResult Delete(int id)
         {
             Partner selectedPartner = GetPartners().SingleOrDefault(p => p.Id == id);
@@ -77,7 +82,7 @@ namespace CustomInvoice.WebApp.Controllers
             return RedirectToAction("Index", "Partner");
         }
 
-
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Save(PartnerFormViewModel partnerForm)

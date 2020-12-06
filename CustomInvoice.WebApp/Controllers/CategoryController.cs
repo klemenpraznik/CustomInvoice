@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CustomInvoice.WebApp.Data;
 using CustomInvoice.WebApp.Models;
 using CustomInvoice.WebApp.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -35,7 +36,8 @@ namespace CustomInvoice.WebApp.Controllers
             return View("Index", GetCategories());
         }
 
-        // GET: PartnerController/Details/5
+
+        [Authorize]
         public ActionResult Details(int id)
         {
             Category selectedCategory = GetCategories().SingleOrDefault(p => p.Id == id);
@@ -47,6 +49,7 @@ namespace CustomInvoice.WebApp.Controllers
             return View(selectedCategory);
         }
 
+        [Authorize]
         public ActionResult Edit(int id)
         {
             CategoryFormViewModel viewModel = new CategoryFormViewModel();
@@ -60,6 +63,7 @@ namespace CustomInvoice.WebApp.Controllers
             return View(viewModel);
         }
 
+        [Authorize]
         public ActionResult New()
         {
             return View("Edit", new CategoryFormViewModel());
@@ -77,7 +81,7 @@ namespace CustomInvoice.WebApp.Controllers
             return RedirectToAction("Index", "Category");
         }
 
-
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Save(CategoryFormViewModel categoryForm)
