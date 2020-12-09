@@ -4,14 +4,16 @@ using CustomInvoice.WebApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CustomInvoice.WebApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201209112744_article-table")]
+    partial class articletable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -153,9 +155,6 @@ namespace CustomInvoice.WebApp.Data.Migrations
 
                     b.Property<decimal?>("DiscountPercent")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("DocumentNumber")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("InvoiceDate")
                         .HasColumnType("datetime2");

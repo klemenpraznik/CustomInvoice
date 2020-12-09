@@ -41,6 +41,10 @@
     <Compile Remove="Data\Migrations\20201206113702_product-table.Designer.cs" />
     <Compile Remove="Data\Migrations\20201206114138_product-table.cs" />
     <Compile Remove="Data\Migrations\20201206114138_product-table.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201209105710_document-table.cs" />
+    <Compile Remove="Data\Migrations\20201209105710_document-table.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201209112659_article-table.cs" />
+    <Compile Remove="Data\Migrations\20201209112659_article-table.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
