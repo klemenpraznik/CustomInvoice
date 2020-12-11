@@ -50,6 +50,42 @@ namespace CustomInvoice.WebApp.Controllers.API_controllers
             return Ok(selectedDocument);
         }
 
+        [HttpPost()]
+        public ActionResult<Document> CreateDocument(Document document)
+        {
+            if (!ModelState.IsValid) { return BadRequest(); }
+
+            Document newDocument = new Document();
+            newDocument.ClientId = document.ClientId;
+
+            //predračun
+            newDocument.OfferDate = document.OfferDate;
+            newDocument.OfferValidityDays = document.OfferValidityDays;
+            newDocument.OfferDateOfOrder = document.OfferDateOfOrder;
+
+            //račun
+            newDocument.InvoiceDate = document.InvoiceDate;
+            newDocument.InvoiceServiceFrom = document.InvoiceServiceFrom;
+            newDocument.InvoiceServiceUntil = document.InvoiceServiceUntil;
+            newDocument.InvoiceDateOfMaturity = document.InvoiceDateOfMaturity;
+            newDocument.InvoiceDateOfOrder = document.InvoiceDateOfOrder;
+
+            //dobavnica
+            newDocument.DeliveryNoteDate = document.DeliveryNoteDate;
+
+            //cene
+            newDocument.TotalExcludingVAT = document.TotalExcludingVAT;
+            newDocument.DiscountPercent = document.DiscountPercent;
+            newDocument.DiscountAmount = document.DiscountAmount;
+            newDocument.AmountExcludingVAT = document.AmountExcludingVAT;
+            newDocument.AmountIncludingVAT = document.AmountIncludingVAT;
+
+            _context.Documents.Add(newDocument);
+            _context.SaveChanges();
+            int newId = newDocument.Id;
+            return Created("api/document/" + newId, newId);
+        }
+
         [HttpDelete("{id}")]
         public ActionResult DeleteDocument(int id)
         {

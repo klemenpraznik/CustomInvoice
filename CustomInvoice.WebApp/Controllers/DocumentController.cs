@@ -63,13 +63,12 @@ namespace CustomInvoice.WebApp.Controllers
 
         public ActionResult New()
         {
-            var articles = GetArticles();
-            var clients = _context.Clients.ToList();
-
-            var newDocument = new DocumentDetailsModel()
+            var newDocument = new DocumentEditModel()
             {
-                ClientsList = clients,
-                ArticlesList = articles
+                Document = null,
+                ClientsList = _context.Clients.ToList(),
+                ArticlesList = null,
+                ProductList = _context.Products.ToList()
             };
 
             return View("Edit", newDocument);
@@ -95,12 +94,5 @@ namespace CustomInvoice.WebApp.Controllers
 
             return View("Edit", viewModel);
         }
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Save(DocumentDetailsModel documentForm)
-        //{
-
-        //}
     }
 }

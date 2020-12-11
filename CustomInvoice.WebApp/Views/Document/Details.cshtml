@@ -6,13 +6,16 @@
         display: flex;
         align-items: center;
     }
+
     #dates .col-lg-4 {
         max-width: 32.333%;
     }
+
     .col-lg-4 {
         vertical-align: top;
     }
-    label.bold{
+
+    label.bold {
         font-weight: 600;
     }
 </style>
@@ -69,11 +72,11 @@
                                 <div class="form-group row">
                                     <label class="col-6">Datum opr. storitve od:</label>
                                     <div class="col-6">
-                                        <input class="form-control form-control-solid" type="text" value="@(Model.Document.InvoiceServiceUntil.HasValue ? Model.Document.InvoiceServiceUntil.Value.ToString("dd.MM.yyyy") : "")" disabled />
+                                        <input class="form-control form-control-solid" type="text" value="@(Model.Document.InvoiceServiceFrom.HasValue ? Model.Document.InvoiceServiceFrom.Value.ToString("dd.MM.yyyy") : "")" disabled />
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-6 bold">Datum računa:</label>
+                                    <label class="col-6 bold">Datum opr. storitve do:</label>
                                     <div class="col-6">
                                         <input class="form-control form-control-solid" type="text" value="@(Model.Document.InvoiceServiceUntil.HasValue ? Model.Document.InvoiceServiceUntil.Value.ToString("dd.MM.yyyy") : "")" disabled />
                                     </div>
@@ -129,21 +132,21 @@
                                     <tr>
                                         <th scope="col">Produkt</th>
                                         <th scope="col">Količina</th>       @*quantity*@
-                                        <th scope="col">Cena</th>           @*price*@
+                                        <th scope="col">Cena brez DDV</th>  @*price*@
                                         <th scope="col">Popust</th>         @*discount*@
                                         <th scope="col">DDV</th>            @*taxRate*@
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @{ foreach (var article in Model.ArticlesList)
-                                                    {
-                                        <tr>
-                                            <td>@(string.IsNullOrEmpty(article.Product.ShortName) ? article.Product.Name : article.Product.ShortName)</td>
-                                            <td>@article.Quantity @article.Product.UnitOfMeasure</td>
-                                            <td>@article.Price €</td>
-                                            <td>@article.Discount %</td>
-                                            <td>@article.TaxRate %</td>
-                                        </tr> } }
+                                        {
+                            <tr>
+                                <td>@(string.IsNullOrEmpty(article.Product.ShortName) ? article.Product.Name : article.Product.ShortName)</td>
+                                <td>@article.Quantity @article.Product.UnitOfMeasure</td>
+                                <td>@article.Price €</td>
+                                <td>@article.Discount %</td>
+                                <td>@article.TaxRate %</td>
+                            </tr> } }
                                 </tbody>
                             </table>
                         </div>
@@ -160,17 +163,17 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-4">
-                                <div class="form-group row">
-                                    <label class="col-6">Popust:</label>
-                                    <div class="col-6">
-                                        <div class="input-group">
-                                            <div class="input-group-prepend"><span class="input-group-text">%</span></div>
-                                            <input class="form-control" value="@Model.Document.DiscountPercent" disabled />
+                            @*<div class="col-lg-4">
+                                    <div class="form-group row">
+                                        <label class="col-6">Popust:</label>
+                                        <div class="col-6">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend"><span class="input-group-text">%</span></div>
+                                                <input class="form-control" value="@Model.Document.DiscountPercent" disabled />
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
+                                </div>*@
                             <div class="col-lg-4">
                                 <div class="form-group row">
                                     <label class="col-6">Popust:</label>
@@ -199,16 +202,50 @@
                                     <div class="col-6">
                                         <div class="input-group">
                                             <div class="input-group-prepend"><span class="input-group-text">€</span></div>
-                                            <input class="form-control" value="@Model.Document.AmountIncludingVAT" disabled/>
+                                            <input class="form-control" value="@Model.Document.AmountIncludingVAT" disabled />
                                         </div>
                                     </div>
-                                    
+
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="card-footer">
+                <a class="btn btn-primary" asp-action="Index">Nazaj</a>
+                <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@Model.Document.Id">Uredi</a>
+                <a class="btn btn-danger float-right js-delete">Izbriši</a>
+            </div>
         </div>
     </div>
 </div>
+@section scripts
+{
+    <script src="~/lib/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="~/lib/datatables/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(".card-footer").on("click", ".js-delete",
+                function () {
+                    var button = $(this);
+                    bootbox.confirm("Ali ste pripričani, da želite izbrisati ta dokument?",
+                        function (result) {
+                            if (result) {
+                                $.ajax({
+                                    url: "/api/document/" + @Model.Document.Id,
+                                    method: "DELETE",
+                                    success: function () {
+                                        bootbox.confirm("Dokument s št. '" + @Model.Document.Id + "' je biu uspešno izbrisan!", function (result) {
+                                            location.href = "/document";
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                });
+        })
+    </script>
+}
