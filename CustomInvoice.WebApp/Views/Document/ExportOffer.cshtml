@@ -1,0 +1,164 @@
+﻿@model CustomInvoice.WebApp.ViewModels.DocumentDetailsModel
+@{
+    ViewBag.Title = "Offer";
+    Layout = "~/Views/Shared/_PdfLayout.cshtml";
+}
+
+
+    <section id="invoice-title-number">
+
+        <span id="title">PREDRAČUN</span>
+        <span id="number">#@Model.Document.Id</span>
+
+    </section>
+
+    <div class="clearfix"></div>
+
+    <section id="client-info">
+        <span>Stranka:</span>
+        <div>
+            <span class="bold">@Model.Document.Client.Name</span>
+        </div>
+
+        <div>
+            <span>@Model.Document.Client.StreetName @Model.Document.Client.StreetNumber,</span>
+        </div>
+
+        <div>
+            <span>@Model.Document.Client.PostNumber @Model.Document.Client.City, @Model.Document.Client.Country</span>
+        </div>
+
+        <div>
+            <span>@Model.Document.Client.PhoneNumber</span>
+        </div>
+
+        <div>
+            <span>@Model.Document.Client.Email</span>
+        </div>
+
+        <div>
+            <span>ID št. za DDV: @Model.Document.Client.taxNumber</span>
+        </div>
+
+    </section>
+
+    <div class="clearfix"></div>
+
+    <section id="items">
+
+        <table cellpadding="0" cellspacing="0">
+
+            <tr>
+                <th>#</th> <!-- Dummy cell for the row number and row commands -->
+                <th>Produkt / storitev</th>
+                <th>Količina</th>
+                <th>Cena</th>
+                <th>Popust</th>
+                <th>DDV</th>
+                @*<th>Skupaj</th>*@
+            </tr>
+
+            @{
+                foreach (var article in Model.ArticlesList)
+                {
+                    <tr data-iterate="item">
+                        <td>@article.ArticleId</td>
+                        <td>@article.Product.Name</td>
+                        <td>@article.Quantity @article.Product.UnitOfMeasure</td>
+                        <td>@article.Product.SellingPrice €</td>
+                        <td>@article.Discount %</td>
+                        <td>@article.TaxRate %</td>
+                        @*<td>skupaj €</td>*@
+                    </tr>
+                }
+            }
+        </table>
+
+    </section>
+
+    <section id="sums">
+
+        <table cellpadding="0" cellspacing="0">
+            <tr>
+                <th>Skupaj brez DDV:</th>
+                <td>@Model.Document.TotalExcludingVAT €</td>
+            </tr>
+
+            <tr data-iterate="tax">
+                <th>Popust</th>
+                <td>@Model.Document.DiscountAmount €</td>
+            </tr>
+
+            <tr class="amount-total">
+                <th>Znesek brez DDV</th>
+                <td>@Model.Document.AmountExcludingVAT €</td>
+            </tr>
+
+            <!-- You can use attribute data-hide-on-quote="true" to hide specific information on quotes.
+             For example Invoicebus doesn't need amount paid and amount due on quotes  -->
+            @*<tr data-hide-on-quote="true">
+                <th>{amount_paid_label}</th>
+                <td>{amount_paid}</td>
+            </tr>*@
+
+            <tr data-hide-on-quote="true">
+                <th>ZNESEK Z DDV</th>
+                <td>@Model.Document.AmountIncludingVAT €</td>
+            </tr>
+
+        </table>
+
+        @*<div class="thank-you">ZNESEK Z DDV: @Model.Document.AmountIncludingVAT€</div>*@
+
+        <div class="clearfix"></div>
+
+    </section>
+
+    <div class="clearfix"></div>
+
+    <section id="invoice-info">
+        <div>
+            <span>Datum predračuna:</span> <span>@Model.Document.OfferDateString</span>
+        </div>
+        <div>
+            <span>Veljavnost dni:</span> <span>@Model.Document.OfferValidityDays</span>
+        </div>
+
+        <br />
+
+        <div>
+            <span>Datum naročila:</span> <span>@Model.Document.OfferDateOfOrderString</span>
+        </div>
+        @*<div>
+            <span>{po_number_label}</span> <span>{po_number}</span>
+        </div>
+        <div>
+            <span>{net_term_label}</span> <span>{net_term}</span>
+        </div>*@
+    </section>
+
+    <section id="terms">
+
+        <div class="notes">
+            Prosimo, da znesek računa nakažete na TRR št. SIXX XXXX XXXX XXXX XXX<br />
+            Sberbank d.d. SWIFT-BIC koda: XXXXXXX<br />
+            Pri plačilu se sklicujte na številko računa.
+        </div>
+
+        <br />
+
+        @*<div class="payment-info">
+            <div>{payment_info1}</div>
+            <div>{payment_info2}</div>
+            <div>{payment_info3}</div>
+            <div>{payment_info4}</div>
+            <div>{payment_info5}</div>
+        </div>*@
+
+    </section>
+
+    <div class="clearfix"></div>
+
+    <div class="thank-you">HVALA!</div>
+
+    <div class="clearfix"></div>

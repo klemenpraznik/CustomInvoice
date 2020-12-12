@@ -7,6 +7,7 @@ using CustomInvoice.WebApp.Models;
 using CustomInvoice.WebApp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Rotativa.AspNetCore;
 
 namespace CustomInvoice.WebApp.Controllers
 {
@@ -59,6 +60,72 @@ namespace CustomInvoice.WebApp.Controllers
             var viewModel = new DocumentDetailsModel() { Document = document, ArticlesList = articles};
 
             return View("Details", viewModel);
+        }
+
+        public ActionResult ExportOffer(int id) //predracun PDF
+        {
+            var document = GetDocuments().SingleOrDefault(d => d.Id == id);
+            var articles = GetArticles().Where(a => a.DocumentId == id).ToList();
+
+            if (document == null)
+            {
+                return NotFound();
+            }
+
+            var viewModel = new DocumentDetailsModel() { Document = document, ArticlesList = articles };
+
+            return new ViewAsPdf(viewModel)
+            {
+                FileName = "predracun_" + id + "-" + document.Client.Name.Replace(" ", "_"),
+                PageSize = Rotativa.AspNetCore.Options.Size.A4,
+                PageMargins = new Rotativa.AspNetCore.Options.Margins(0, 0, 0, 0),
+                CustomSwitches = "--disable-smart-shrinking"
+            };
+            //return View("ExportOffer", viewModel);
+        }
+
+        public ActionResult ExportInvoice(int id) //račun PDF
+        {
+            var document = GetDocuments().SingleOrDefault(d => d.Id == id);
+            var articles = GetArticles().Where(a => a.DocumentId == id).ToList();
+
+            if (document == null)
+            {
+                return NotFound();
+            }
+
+            var viewModel = new DocumentDetailsModel() { Document = document, ArticlesList = articles };
+
+            return new ViewAsPdf(viewModel)
+            {
+                FileName = "racun_" + id + "-" + document.Client.Name.Replace(" ", "_"),
+                PageSize = Rotativa.AspNetCore.Options.Size.A4,
+                PageMargins = new Rotativa.AspNetCore.Options.Margins(0, 0, 0, 0),
+                CustomSwitches = "--disable-smart-shrinking"
+            };
+            //return View("ExportOffer", viewModel);
+        }
+
+        public ActionResult ExportDeliveryNote(int id) //račun PDF
+        {
+            var document = GetDocuments().SingleOrDefault(d => d.Id == id);
+            var articles = GetArticles().Where(a => a.DocumentId == id).ToList();
+
+            if (document == null)
+            {
+                return NotFound();
+            }
+
+            var viewModel = new DocumentDetailsModel() { Document = document, ArticlesList = articles };
+
+            return new ViewAsPdf(viewModel)
+            {
+                FileName = "dobavnica" + id + "-" + document.Client.Name.Replace(" ", "_"),
+                PageSize = Rotativa.AspNetCore.Options.Size.A4,
+                PageMargins = new Rotativa.AspNetCore.Options.Margins(0, 0, 0, 0),
+                CustomSwitches = "--disable-smart-shrinking"
+            };
+            //return View("ExportDeliveryNote", viewModel);
         }
 
         public ActionResult New()

@@ -69,3 +69,44 @@ body {
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
 }
+
+
+/* PDF export*/
+.export-pdf {
+    padding-top: 0px!important;
+}
+
+.fr {
+    float: right;
+    text-align: right;
+}
+
+.fl {
+    float: left;
+    text-align: left;
+}
+
+.pdf-total {
+    border-top: 2px solid #333;
+    font-weight: 600;
+}
+
+.cs-underline {
+    border-bottom: 1px solid #333;
+}
+
+.ftr {
+    padding-top: 5px;
+    margin-top: 20px;
+    border-top: 2px solid #333;
+}
+
+.inline {
+    display: inline;
+    max-width: 49%;
+    width: 200px;
+}
+
+#refreshIcon {
+    cursor: pointer;
+}

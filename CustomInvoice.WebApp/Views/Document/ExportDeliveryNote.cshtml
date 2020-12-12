@@ -1,0 +1,128 @@
+﻿@model CustomInvoice.WebApp.ViewModels.DocumentDetailsModel
+@{
+    ViewBag.Title = "Invoice";
+    Layout = "~/Views/Shared/_PdfLayout.cshtml";
+}
+
+
+    <section id="invoice-title-number">
+
+        <span id="title">DOBAVNICA</span>
+        <span id="number">#@Model.Document.Id</span>
+
+    </section>
+
+    <div class="clearfix"></div>
+
+    <section id="client-info">
+        <span>Stranka:</span>
+        <div>
+            <span class="bold">@Model.Document.Client.Name</span>
+        </div>
+
+        <div>
+            <span>@Model.Document.Client.StreetName @Model.Document.Client.StreetNumber,</span>
+        </div>
+
+        <div>
+            <span>@Model.Document.Client.PostNumber @Model.Document.Client.City, @Model.Document.Client.Country</span>
+        </div>
+
+        <div>
+            <span>@Model.Document.Client.PhoneNumber</span>
+        </div>
+
+        <div>
+            <span>@Model.Document.Client.Email</span>
+        </div>
+        <div>
+            <span>ID št. za DDV: @Model.Document.Client.taxNumber</span>
+        </div>
+    </section>
+
+    <div class="clearfix"></div>
+
+    <section id="items">
+
+        <table cellpadding="0" cellspacing="0">
+
+            <tr>
+                <th style="width: 50px;">#</th> <!-- Dummy cell for the row number and row commands -->
+                <th style="width: auto;">Produkt / storitev</th>
+                <th style="width: 80px;">Količina</th>
+                @*<th>Cena</th>
+                <th>Popust</th>
+                <th>DDV</th>*@
+                @*<th>Skupaj</th>*@
+            </tr>
+
+            @{
+                foreach (var article in Model.ArticlesList)
+                {
+                    <tr data-iterate="item">
+                        <td>@article.ArticleId</td>
+                        <td>@article.Product.Name</td>
+                        <td>@article.Quantity @article.Product.UnitOfMeasure</td>
+                        @*<td>@article.Product.SellingPrice €</td>
+                        <td>@article.Discount %</td>
+                        <td>@article.TaxRate %</td>*@
+                        @*<td>skupaj €</td>*@
+                    </tr>
+                }
+            }
+        </table>
+
+    </section>
+
+    <div class="clearfix"></div>
+
+    <section id="invoice-info">
+        <div>
+            <span>Datum dobavnice:</span> <span>@Model.Document.DeliveryNoteDateString</span>
+        </div>
+        @*<div>
+            <span>Datum opr. storitve od:</span> <span>@Model.Document.InvoiceServiceFromString</span>
+        </div>
+        <div>
+            <span>Datum opr. storitve do:</span> <span>@Model.Document.InvoiceServiceUntilString</span>
+        </div>
+
+        <br />
+
+        <div>
+            <span>Datum naročila:</span> <span>@Model.Document.InvoiceDateOfOrderString</span>
+        </div>
+        <div>
+            <span>Datum zapadlosti:</span> <span>@Model.Document.InvoiceDateOfMaturityString</span>
+        </div>*@
+        @*<div>
+            <span>{po_number_label}</span> <span>{po_number}</span>
+        </div>
+        <div>
+            <span>{net_term_label}</span> <span>{net_term}</span>
+        </div>*@
+    </section>
+
+    <section id="terms">
+
+        <div class="notes">
+            Potrjujem prejem zgornjih artiklov in opravljenih storitev.
+        </div>
+
+        <br />
+
+        @*<div class="payment-info">
+            <div>{payment_info1}</div>
+            <div>{payment_info2}</div>
+            <div>{payment_info3}</div>
+            <div>{payment_info4}</div>
+            <div>{payment_info5}</div>
+        </div>*@
+
+    </section>
+
+    <div class="clearfix"></div>
+
+    <div class="thank-you">HVALA!</div>
+
+    <div class="clearfix"></div>

@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using CustomInvoice.WebApp.Controllers.API_controllers;
 using System.Globalization;
+using Rotativa.AspNetCore;
 
 namespace CustomInvoice.WebApp
 {
@@ -80,6 +81,8 @@ namespace CustomInvoice.WebApp
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+
+            RotativaConfiguration.Setup(env.WebRootPath, "Rotativa");
         }
     }
 }
