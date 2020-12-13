@@ -154,7 +154,7 @@ else
                                 <tbody>
                                     <tr class="articlesTableRow hidden" data-id="0">
                                         <td id="item" data-name="item">
-                                            <select name="item0" class="form-control">
+                                            <select name="item0" class="form-control" onchange="getTotals2()">
                                                 <option value="">Izberi izdelek</option>
                                                 @{ foreach (var product in Model.ProductList) //$("[name='sel1']").val();
                                                     {
@@ -191,7 +191,53 @@ else
 
                         </div>
                         <div class="separator separator-dashed my-10"></div>
+                        <div class="my-5">
+                            <div class="col-lg-4">
+                                <div class="form-group row">
+                                    <label class="col-6">Skupaj brez DDV:</label>
+                                    <div class="col-6">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend"><span class="input-group-text">€</span></div>
+                                            <input id="skupaj-brez-ddv" class="form-control" disabled />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group row">
+                                    <label class="col-6">Popust:</label>
+                                    <div class="col-6">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend"><span class="input-group-text">€</span></div>
+                                            <input id="popust" class="form-control" disabled />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group row">
+                                    <label class="col-6">Znesek brez DDV:</label>
+                                    <div class="col-6">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend"><span class="input-group-text">€</span></div>
+                                            <input id="znesek-brez-ddv" class="form-control" disabled />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group row">
+                                    <label class="col-6 bold">Znesek z DDV:</label>
+                                    <div class="col-6">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend"><span class="input-group-text">€</span></div>
+                                            <input id="znesek-z-ddv" class="form-control" disabled />
+                                        </div>
+                                    </div>
 
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -217,7 +263,6 @@ else
         var skupajBrezDdv22 = 0;
         var znesekBrezDdv = 0;
         var znesekPopusti = 0;
-        var montaza = 0;
 
         $("#js_add").click(function (e) {
             e.preventDefault();
@@ -296,7 +341,11 @@ else
                 neki.discount = $(this).find('td:eq(3) input').val();
                 neki.taxRate = $(this).find('td:eq(4) select').find(':selected').attr('data-item-taxRate');
                 var total = neki.quantity * $(this).find('td:eq(0) select').find(':selected').attr('data-item-price');
-                znesekBrezDdv += total;
+                if (!isNaN(total)) {
+                    znesekBrezDdv += eval(total);
+                }
+                //console.log("znesek brez ddv: " + eval(znesekBrezDdv));
+
                 neki.price = total - (total * neki.discount / 100);
                 znesekPopusti += total * neki.discount / 100;
 
@@ -309,6 +358,48 @@ else
                 articlesList.push(neki);
             });
         }
+
+        function getTotals2() {
+            var skupajBrezDdv95 = 0;
+            var skupajBrezDdv22 = 0;
+            var znesekBrezDdv = 0;
+            var znesekPopusti = 0;
+            var articlesList = [];
+
+            $.each($("#tab_logic tbody tr"), function () {
+                var neki = {};
+                neki.documentId = docId;
+                neki.productId = $(this).find('td:eq(0) select').val();
+                neki.quantity = $(this).find('td:eq(1) input').val();
+                neki.discount = $(this).find('td:eq(3) input').val();
+                neki.taxRate = $(this).find('td:eq(4) select').find(':selected').attr('data-item-taxRate');
+                var total = neki.quantity * $(this).find('td:eq(0) select').find(':selected').attr('data-item-price');
+                if (!isNaN(total)) {
+                    znesekBrezDdv += eval(total);
+                }
+                //console.log("znesek brez ddv: " + eval(znesekBrezDdv));
+
+                neki.price = total - (total * neki.discount / 100);
+                znesekPopusti += total * neki.discount / 100;
+
+                if (neki.taxRate == "9.5") {
+                    skupajBrezDdv95 += neki.price;
+                }
+                else if (neki.taxRate == "22") {
+                    skupajBrezDdv22 += neki.price;
+                }
+                articlesList.push(neki);
+            });
+
+            $("#skupaj-brez-ddv").val(parseFloat(znesekBrezDdv).toFixed(2));
+            $("#popust").val(parseFloat(znesekPopusti).toFixed(2));
+            $("#znesek-brez-ddv").val(parseFloat(znesekBrezDdv - znesekPopusti).toFixed(2));
+            $("#znesek-z-ddv").val(parseFloat((znesekBrezDdv - znesekPopusti) + (skupajBrezDdv95 * 0.095) + (skupajBrezDdv22 * 0.22)).toFixed(2));
+        }
+
+        $("#tab_logic").on("click", function () {
+            getTotals2();
+        });
 
         function articles(docId) {
             var postObject = {};

@@ -138,7 +138,7 @@ namespace CustomInvoice.WebApp.Controllers
                 ProductList = _context.Products.ToList()
             };
 
-            return View("Edit", newDocument);
+            return View("New", newDocument);
         }
 
         public ActionResult Edit(int id)
