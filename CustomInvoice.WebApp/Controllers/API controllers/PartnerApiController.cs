@@ -96,9 +96,16 @@ namespace CustomInvoice.WebApp.Controllers.API_controllers
             if (partnerInDb == null) { return NotFound(); }
 
             _context.Partners.Remove(partnerInDb);
-            _context.SaveChanges();
-
-            return Ok();
+            try
+            {
+                _context.SaveChanges();
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(400);
+            }
+            
         }
     }
 }

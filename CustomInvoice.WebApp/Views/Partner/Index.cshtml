@@ -104,7 +104,7 @@
             $("#partners").on("click", ".js-delete",
                 function () {
                     var button = $(this);
-                    bootbox.confirm("Ali ste pripričani, da želite izbrisati tega partnerja?",
+                    bootbox.confirm("Ali ste pripričani, da želite izbrisati tega partnerja",
                         function (result) {
                             if (result) {
                                 $.ajax({
@@ -112,7 +112,13 @@
                                     method: "DELETE",
                                     success: function () {
                                         button.parents("tr").remove();
-                                    }
+                                    },
+                                    fail: function (data) {
+                                        bootbox.alert("V bazi imate več izdelkov tega partnerja, zato ga ni mogoče izbrisati.");
+                                    },
+                                    error: function (jqXHR, textStatus, errorThrown) {
+                                        bootbox.alert("V bazi imate več izdelkov tega partnerja, zato ga ni mogoče izbrisati.");
+                                    },
                                 });
                             }
                         });

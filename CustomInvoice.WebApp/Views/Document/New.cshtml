@@ -140,7 +140,7 @@ else
                                             Količina
                                         </th>
                                         <th class="text-center">
-                                            Cena
+                                            Znesek brez DDV
                                         </th>
                                         <th class="text-center">
                                             Popust
@@ -163,18 +163,18 @@ else
                                             </select>
                                         </td>
                                         <td id="quantity" data-name="quantity">
-                                            <input class="form-control" label="Količina" type="number" name='q0' min="1" step="1" value="1" />
+                                            <input id="kolicina" class="form-control" label="Količina" type="number" name='q0' min="1" step="1" value="1" onchange="getTotals2()" />
                                         </td>
                                         <td id="price" data-name="price">
-                                            <input type="text" name='price0' class="form-control" disabled />
+                                            <input id="cena" type="text" name='price0' class="form-control" disabled />
                                         </td>
                                         <td id="disc" data-name="disc">
-                                            <input class="form-control" type="number" name='disc0' min="0" step="0.1" value="0" />
+                                            <input class="form-control" type="number" name='disc0' min="0" step="0.1" value="0" onchange="getTotals2()" />
                                         </td>
                                         <td data-name="tax">
-                                            <select name="tax0" class="form-control">
-                                                <option value="22" data-item-taxRate="22">22</option>
-                                                <option value="9.5" data-item-taxRate="9.5">9.5</option>
+                                            <select id="davek" name="tax0" class="form-control" onchange="getTotals2()">
+                                                <option value="22" data-item-taxRate="22">22 %</option>
+                                                <option value="9.5" data-item-taxRate="9.5">9.5 %</option>
                                                 @*<option value="0" data-item-taxRate="0">0</option>*@
                                             </select>
                                         </td>
@@ -343,18 +343,19 @@ else
                 var total = neki.quantity * $(this).find('td:eq(0) select').find(':selected').attr('data-item-price');
                 if (!isNaN(total)) {
                     znesekBrezDdv += eval(total);
+                    neki.price = total - (total * neki.discount / 100);
+                    znesekPopusti += total * neki.discount / 100;
+
+                    if (neki.taxRate == "9.5") {
+                        skupajBrezDdv95 += neki.price;
+                    }
+                    else if (neki.taxRate == "22") {
+                        skupajBrezDdv22 += neki.price;
+                    }
                 }
                 //console.log("znesek brez ddv: " + eval(znesekBrezDdv));
 
-                neki.price = total - (total * neki.discount / 100);
-                znesekPopusti += total * neki.discount / 100;
-
-                if (neki.taxRate == "9.5") {
-                    skupajBrezDdv95 += neki.price;
-                }
-                else if (neki.taxRate == "22") {
-                    skupajBrezDdv22 += neki.price;
-                }
+                
                 articlesList.push(neki);
             });
         }
@@ -374,13 +375,16 @@ else
                 neki.discount = $(this).find('td:eq(3) input').val();
                 neki.taxRate = $(this).find('td:eq(4) select').find(':selected').attr('data-item-taxRate');
                 var total = neki.quantity * $(this).find('td:eq(0) select').find(':selected').attr('data-item-price');
+
+
                 if (!isNaN(total)) {
                     znesekBrezDdv += eval(total);
                 }
-                //console.log("znesek brez ddv: " + eval(znesekBrezDdv));
-
                 neki.price = total - (total * neki.discount / 100);
                 znesekPopusti += total * neki.discount / 100;
+
+                $(this).find('td:eq(2) input').val(neki.price.toFixed(2) + " €");
+
 
                 if (neki.taxRate == "9.5") {
                     skupajBrezDdv95 += neki.price;
@@ -388,6 +392,9 @@ else
                 else if (neki.taxRate == "22") {
                     skupajBrezDdv22 += neki.price;
                 }
+                //console.log("znesek brez ddv: " + eval(znesekBrezDdv));
+
+                
                 articlesList.push(neki);
             });
 
@@ -488,15 +495,13 @@ else
                             var td;
                             var cur_td = $(this);
 
-
-
                             var children = cur_td.children();
 
                             // add new td and element if it has a nane
                             if ($(this).data("name") !== undefined) {
                                 td = $("<td></td>",
                                     {
-                                        "data-name": $(cur_td).data("name")
+                                        "data-name": $(cur_td).data("name"),
                                     });
 
                                 var c = $(cur_td).find($(children[0]).prop('tagName')).clone().val("");
@@ -510,6 +515,7 @@ else
                                     }).appendTo($(tr));
                             }
                         });
+
 
                     // add delete button and td
                     /*
@@ -528,6 +534,11 @@ else
                         function () {
                             $(this).closest("tr").remove();
                         });
+
+                    $("#addr" + newid).find('td:eq(1) input').val(1);
+                    $("#addr" + newid).find('td:eq(3) input').val(0);
+                    $("#addr" + newid).find('td:eq(4) select').val("22");
+
                 });
 
         });

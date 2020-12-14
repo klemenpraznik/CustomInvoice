@@ -104,7 +104,7 @@
             $("#clients").on("click", ".js-delete",
                 function () {
                     var button = $(this);
-                    bootbox.confirm("Ali ste pripričani, da želite izbrisati to stranko?",
+                    bootbox.confirm("Ali ste pripričani, da želite izbrisati to stranko in vse njihove dokumente?",
                         function (result) {
                             if (result) {
                                 $.ajax({
