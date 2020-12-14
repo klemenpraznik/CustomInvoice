@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CustomInvoice.WebApp.Controllers
 {
+    [Authorize]
     public class PartnerController : Controller
     {
         private ApplicationDbContext _context;
@@ -36,20 +37,18 @@ namespace CustomInvoice.WebApp.Controllers
             return View("Index", GetPartners());
         }
 
-        [Authorize]
         // GET: PartnerController/Details/5
         public ActionResult Details(int id)
         {
             Partner selectedPartner = GetPartners().SingleOrDefault(p => p.Id == id);
             if (selectedPartner == null)
             {
-                return NotFound();
+                return View("ErrorPage", id);
             }
 
             return View(selectedPartner);
         }
 
-        [Authorize]
         public ActionResult Edit(int id)
         {
             PartnerFormViewModel viewModel = new PartnerFormViewModel();
@@ -57,32 +56,29 @@ namespace CustomInvoice.WebApp.Controllers
             viewModel.Partner = GetPartners().SingleOrDefault(p => p.Id == id);
             if (viewModel.Partner == null)
             {
-                return NotFound();
+                return View("ErrorPage", id);
             }
 
             return View(viewModel);
         }
 
-        [Authorize]
         public ActionResult New()
         {
             return View("Edit", new PartnerFormViewModel());
         }
 
-        [Authorize]
         public ActionResult Delete(int id)
         {
             Partner selectedPartner = GetPartners().SingleOrDefault(p => p.Id == id);
             if (selectedPartner == null)
             {
-                return NotFound();
+                return View("ErrorPage", id);
             }
             _context.Partners.Remove(selectedPartner);
             _context.SaveChanges();
             return RedirectToAction("Index", "Partner");
         }
 
-        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Save(PartnerFormViewModel partnerForm)

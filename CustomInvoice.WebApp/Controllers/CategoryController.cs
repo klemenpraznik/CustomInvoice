@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CustomInvoice.WebApp.Controllers
 {
+    [Authorize]
     public class CategoryController : Controller
     {
         private ApplicationDbContext _context;
@@ -37,19 +38,18 @@ namespace CustomInvoice.WebApp.Controllers
         }
 
 
-        [Authorize]
+        
         public ActionResult Details(int id)
         {
             Category selectedCategory = GetCategories().SingleOrDefault(p => p.Id == id);
             if (selectedCategory == null)
             {
-                return NotFound();
+                return View("ErrorPage", id);
             }
 
             return View(selectedCategory);
         }
 
-        [Authorize]
         public ActionResult Edit(int id)
         {
             CategoryFormViewModel viewModel = new CategoryFormViewModel();
@@ -57,13 +57,12 @@ namespace CustomInvoice.WebApp.Controllers
             viewModel.Category = GetCategories().SingleOrDefault(p => p.Id == id);
             if (viewModel.Category == null)
             {
-                return NotFound();
+                return View("ErrorPage", id);
             }
 
             return View(viewModel);
         }
 
-        [Authorize]
         public ActionResult New()
         {
             return View("Edit", new CategoryFormViewModel());
@@ -74,14 +73,13 @@ namespace CustomInvoice.WebApp.Controllers
             Category selectedCategory = GetCategories().SingleOrDefault(p => p.Id == id);
             if (selectedCategory == null)
             {
-                return NotFound();
+                return View("ErrorPage", id);
             }
             _context.Categories.Remove(selectedCategory);
             _context.SaveChanges();
             return RedirectToAction("Index", "Category");
         }
 
-        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Save(CategoryFormViewModel categoryForm)

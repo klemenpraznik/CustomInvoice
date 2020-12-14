@@ -1,25 +1,65 @@
 ﻿@model ErrorViewModel
-@{
-    ViewData["Title"] = "Error";
-}
+@{ ViewData["Title"] = "Error"; }
 
 <h1 class="text-danger">Error.</h1>
-<h2 class="text-danger">An error occurred while processing your request.</h2>
+    <h2 class="text-danger">An error occurred while processing your request.</h2>
 
-@if (Model.ShowRequestId)
-{
+    @if (Model.ShowRequestId)
+    {
+        <p>
+            <strong>Request ID:</strong> <code>@Model.RequestId</code>
+        </p>
+    }
+
+    <h3>Development Mode</h3>
     <p>
-        <strong>Request ID:</strong> <code>@Model.RequestId</code>
+        Swapping to <strong>Development</strong> environment will display more detailed information about the error that occurred.
     </p>
-}
+    <p>
+        <strong>The Development environment shouldn't be enabled for deployed applications.</strong>
+        It can result in displaying sensitive information from exceptions to end users.
+        For local debugging, enable the <strong>Development</strong> environment by setting the <strong>ASPNETCORE_ENVIRONMENT</strong> environment variable to <strong>Development</strong>
+        and restarting the app.
+    </p>
 
-<h3>Development Mode</h3>
-<p>
-    Swapping to <strong>Development</strong> environment will display more detailed information about the error that occurred.
-</p>
-<p>
-    <strong>The Development environment shouldn't be enabled for deployed applications.</strong>
-    It can result in displaying sensitive information from exceptions to end users.
-    For local debugging, enable the <strong>Development</strong> environment by setting the <strong>ASPNETCORE_ENVIRONMENT</strong> environment variable to <strong>Development</strong>
-    and restarting the app.
-</p>
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Stran ne obstaja</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="canonical" href="https://keenthemes.com/metronic" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
+
+    <link rel="shortcut icon" href="/favicon/favicon.ico" />-->
+
+    @* Global theme styles (used by all pages) *@
+    <!--<link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/theme/css/plugins.bundle.css" rel="stylesheet" type="text/css" />
+    <link href="/theme/css/prismjs.bundle.css" rel="stylesheet" type="text/css" />
+    <link href="/theme/css/style.bundle.css" rel="stylesheet" type="text/css" />-->
+
+    @* Layout themes (used by all pages) *@
+    <!--<link href="/theme/css/header/base/light.css" rel="stylesheet" type="text/css" />
+    <link href="/theme/css/header/menu/light.css" rel="stylesheet" type="text/css" />
+    <link href="/theme/css/brand/dark.css" rel="stylesheet" type="text/css" />
+    <link href="/theme/css/aside/dark.css" rel="stylesheet" type="text/css" />-->
+
+    @* scripts *@
+    <!--<script src="/theme/js/fullcalendar.bundle.js"></script>
+    <script src="/theme/js/plugins.bundle.js"></script>
+    <script src="/theme/js/prismjs.bundle.js"></script>
+    <script src="/theme/js/scripts.bundle.js"></script>
+    <script src="/theme/js/pages/widgets.js"></script>
+
+</head>
+<body id="kt_body" class="header-fixed header-mobile-fixed subheader-enabled subheader-fixed aside-enabled aside-fixed aside-minimize-hoverable page-loading">
+    <div class="d-flex flex-column flex-root">
+        <div class="d-flex flex-row-fluid flex-column bgi-size-cover bgi-position-center bgi-no-repeat p-10 p-sm-30" style="background-image: url(/metronic/theme/html/demo1/dist/assets/media/error/bg1.jpg);">
+            <h1 class="font-weight-boldest text-dark-75 mt-15" style="font-size: 10rem">404</h1>
+            <p class="font-size-h3 text-muted font-weight-normal">OOPS! Something went wrong here</p>
+        </div>
+    </div>
+</body>
+</html>-->

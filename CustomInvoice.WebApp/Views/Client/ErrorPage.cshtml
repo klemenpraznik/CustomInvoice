@@ -1,18 +1,24 @@
-﻿@page
-@model RegisterConfirmationModel
-@{ ViewData["Title"] = "Potrditev"; }
+﻿@model int
+@{
+    ViewData["Title"] = "Stran ne obstaja";
+    Layout = "";
+}
+<style>
+    .btn-primary {
+        width: min-content;
+    }
+</style>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Registracija</title>
-    <meta name="description" content="Register page" />
+    <title>Stran ne obstaja</title>
+    <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <link rel="canonical" href="https://keenthemes.com/metronic" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
 
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
     <link rel="shortcut icon" href="/favicon/favicon.ico" />
 
     @* Global theme styles (used by all pages) *@
@@ -37,22 +43,10 @@
 </head>
 <body id="kt_body" class="header-fixed header-mobile-fixed subheader-enabled subheader-fixed aside-enabled aside-fixed aside-minimize-hoverable page-loading">
     <div class="d-flex flex-column flex-root">
-        <div class="login login-4 login-signin-on d-flex flex-row-fluid" id="kt_login">
-            <div class="d-flex flex-center flex-row-fluid bgi-size-cover bgi-position-top bgi-no-repeat" style="background-image: url(/theme/img/bg-3.jpg);">
-                <div class="login-form text-center p-7 position-relative overflow-hidden">
-                    <div class="d-flex flex-center mb-15">
-                        <a href="#">
-                            <img src="/favicon/mstile-150x150.png" class="max-h-75px" alt="" />
-                        </a>
-                    </div>
-                    <div class="login-signin">
-                        <div class="mb-20">
-                            <h3>Potrditev računa</h3>
-                            <div class="text-muted font-weight-bold">Aplikacija zaradi finančnih razlogov ne pošilja potrditvenih emailov. <a id="confirm-link" href="@Model.EmailConfirmationUrl">Kliknite tukaj za potrditev računa.</a></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="d-flex flex-row-fluid flex-column bgi-size-cover bgi-position-center bgi-no-repeat p-10 p-sm-30" style="background-image: url(/theme/img/404.jpg);">
+            <h1 class="font-weight-boldest text-dark-75 mt-15" style="font-size: 10rem">404</h1>
+            <p class="font-size-h3 text-muted font-weight-normal">OOPS! Ta stranka ne obstaja.</p>
+            <a class="btn btn-primary" asp-action="Index">Nazaj</a>
         </div>
     </div>
 </body>

@@ -43,7 +43,7 @@ namespace CustomInvoice.WebApp.Controllers
             Client selectedClient = GetClients().SingleOrDefault(p => p.Id == id);
             if (selectedClient == null)
             {
-                return NotFound();
+                return View("ErrorPage", id);
             }
 
             return View(selectedClient);
@@ -56,7 +56,7 @@ namespace CustomInvoice.WebApp.Controllers
             viewModel.Client = GetClients().SingleOrDefault(p => p.Id == id);
             if (viewModel.Client == null)
             {
-                return NotFound();
+                return View("ErrorPage", id);
             }
 
             return View(viewModel);
@@ -72,7 +72,7 @@ namespace CustomInvoice.WebApp.Controllers
             Client selectedClient = GetClients().SingleOrDefault(p => p.Id == id);
             if (selectedClient == null)
             {
-                return NotFound();
+                return View("ErrorPage", id);
             }
             _context.Clients.Remove(selectedClient);
             _context.SaveChanges();

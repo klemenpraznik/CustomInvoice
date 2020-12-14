@@ -24,12 +24,12 @@
                 <table id="documents" class="hover table table-bordered dt-responsive nowrap" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th scope="col">#</th>
+                            <th scope="col">Št. računa</th>
                             <th scope="col" data-priority="1">Stranka</th>
                             <th scope="col">Tip</th>
-                            <th scope="col">Datum</th>
-                            <th scope="col">Cena z DDV</th>
-                            <th scope="col">Že plačano</th>
+                            <th scope="col">Skupaj brez DDV</th>
+                            <th scope="col">Znesek brez DDV:</th>
+                            <th scope="col">Znesek z DDV:</th>
                             <th scope="col" data-priority="2">Akcije</th>
                         </tr>
                     </thead>
@@ -72,11 +72,7 @@
                         defaultContent: "",
                     },
                     {
-                        data: "offerDateString",
-                        defaultContent: ""
-                    },
-                    {
-                        data: "amountIncludingVAT",
+                        data: "totalExcludingVAT",
                         defaultContent: "",
                         render: function (data, type, document) {
                             if (data == null) {
@@ -86,13 +82,23 @@
                         }
                     },
                     {
-                        data: "paidAmount",
-                        defaultContent: "0",
+                        data: "amountExcludingVAT",
+                        defaultContent: "",
                         render: function (data, type, document) {
                             if (data == null) {
                                 return 0 + " €"
                             }
                             return data + " €";
+                        }
+                    },
+                    {
+                        data: "amountIncludingVAT",
+                        defaultContent: "0",
+                        render: function (data, type, document) {
+                            if (data == null) {
+                                return "<b>0 € </b>"
+                            }
+                            return "<b>" + data + " €</b>";
                         }
                     },
                     {
@@ -111,7 +117,8 @@
                     "url": "//cdn.datatables.net/plug-ins/1.10.22/i18n/Slovenian.json"
                 },
                 autoWidth: true,
-                responsive: true
+                responsive: true,
+                order: [[ 0, "desc"]]
             });
             $("#documents").on("click", ".js-delete",
                 function () {

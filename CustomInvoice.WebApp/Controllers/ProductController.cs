@@ -12,6 +12,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CustomInvoice.WebApp.Controllers
 {
+    [Authorize]
+
     public class ProductController : Controller
     {
         private ApplicationDbContext _context;
@@ -36,7 +38,6 @@ namespace CustomInvoice.WebApp.Controllers
             return View("Index");
         }
 
-        [Authorize]
         public ActionResult Details(int id)
         {
             var selectedProduct = GetProducts().SingleOrDefault(p => p.Id == id);
@@ -44,21 +45,20 @@ namespace CustomInvoice.WebApp.Controllers
             //selectedProduct.Category = _context.Categories.SingleOrDefault(p => p.Id == selectedProduct.CategoryId);
             if (selectedProduct == null)
             {
-                return NotFound();
+                return View("ErrorPage", id);
             }
 
 
             return View(selectedProduct);
         }
 
-        [Authorize]
         public ActionResult Edit(int id)
         {
             var product = _context.Products.SingleOrDefault(p => p.Id == id);
 
             if (product == null)
             {
-                return NotFound();
+                return View("ErrorPage", id);
             }
 
             var viewModel = new ProductFormViewModel()
@@ -71,13 +71,11 @@ namespace CustomInvoice.WebApp.Controllers
             return View(viewModel);
         }
 
-        [Authorize]
         public ActionResult New()
         {
             return View("Edit", new ProductFormViewModel() { CategoriesList = _context.Categories, PartnersList = _context.Partners });
         }
 
-        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Save(ProductFormViewModel productForm)

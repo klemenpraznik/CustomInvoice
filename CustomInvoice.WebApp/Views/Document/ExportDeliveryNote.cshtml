@@ -60,7 +60,7 @@
                 foreach (var article in Model.ArticlesList)
                 {
                     <tr data-iterate="item">
-                        <td>@article.ArticleId</td>
+                        <td>@article.Product.Id</td>
                         <td>@article.Product.Name</td>
                         <td>@article.Quantity @article.Product.UnitOfMeasure</td>
                         @*<td>@article.Product.SellingPrice €</td>

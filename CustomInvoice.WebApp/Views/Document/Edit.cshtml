@@ -489,13 +489,13 @@
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     bootbox.alert("Prišlo je do napake: " + jqXHR.status + " (" + errorThrown + ") pri dodajanju postavk. Preverite vnosna polja pri postavkah!");
-                    $.ajax({
-                        url: "/api/document/" + docId,
-                        method: "DELETE",
-                        success: function () {
+                    //$.ajax({
+                    //    url: "/api/document/" + docId,
+                    //    method: "DELETE",
+                    //    success: function () {
 
-                        }
-                    });
+                    //    }
+                    //});
                 },
             });
         }
@@ -581,7 +581,9 @@
         $(document).ready(function () {
             $("td button.row-remove").on("click",
                 function () {
-                    $(this).closest("tr").remove();
+                    if ($("#tab_logic > tbody > tr").length > 1) {
+                        $(this).closest("tr").remove();
+                    }
                 });
         });
     </script>

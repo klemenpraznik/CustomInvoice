@@ -1,18 +1,58 @@
 ﻿@page
 @model ConfirmEmailModel
-@{
-    ViewData["Title"] = "Potrditev";
-}
+@{ ViewData["Title"] = "Potrditev"; }
 
-<div class="col-lg-6" style="margin: auto">
-    <div class="card card-custom">
-        <div class="card-header">
-            <h3 class="card-title">
-                Vaš email naslov je biu uspešno potrjen.
-            </h3>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Registracija</title>
+    <meta name="description" content="Register page" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="canonical" href="https://keenthemes.com/metronic" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
+    <link rel="shortcut icon" href="/favicon/favicon.ico" />
+
+    @* Global theme styles (used by all pages) *@
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/theme/css/plugins.bundle.css" rel="stylesheet" type="text/css" />
+    <link href="/theme/css/prismjs.bundle.css" rel="stylesheet" type="text/css" />
+    <link href="/theme/css/style.bundle.css" rel="stylesheet" type="text/css" />
+
+    @* Layout themes (used by all pages) *@
+    <link href="/theme/css/header/base/light.css" rel="stylesheet" type="text/css" />
+    <link href="/theme/css/header/menu/light.css" rel="stylesheet" type="text/css" />
+    <link href="/theme/css/brand/dark.css" rel="stylesheet" type="text/css" />
+    <link href="/theme/css/aside/dark.css" rel="stylesheet" type="text/css" />
+
+    @* scripts *@
+    <script src="/theme/js/fullcalendar.bundle.js"></script>
+    <script src="/theme/js/plugins.bundle.js"></script>
+    <script src="/theme/js/prismjs.bundle.js"></script>
+    <script src="/theme/js/scripts.bundle.js"></script>
+    <script src="/theme/js/pages/widgets.js"></script>
+
+</head>
+<body id="kt_body" class="header-fixed header-mobile-fixed subheader-enabled subheader-fixed aside-enabled aside-fixed aside-minimize-hoverable page-loading">
+    <div class="d-flex flex-column flex-root">
+        <div class="login login-4 login-signin-on d-flex flex-row-fluid" id="kt_login">
+            <div class="d-flex flex-center flex-row-fluid bgi-size-cover bgi-position-top bgi-no-repeat" style="background-image: url(/theme/img/bg-3.jpg);">
+                <div class="login-form text-center p-7 position-relative overflow-hidden">
+                    <div class="d-flex flex-center mb-15">
+                        <a href="#">
+                            <img src="/favicon/mstile-150x150.png" class="max-h-75px" alt="" />
+                        </a>
+                    </div>
+                    <div class="login-signin">
+                        <div class="mb-20">
+                            <h3>Vaš email naslov je biu uspešno potrjen.</h3>
+                            <a asp-area="Identity" asp-page="/Account/Login" class="text-muted text-hover-primary font-weight-bold">Prijava</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="card-body">
-            <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-secondary">Prijava</a>
-        </div>
-    </div>
-</div>
+</body>
+</html>

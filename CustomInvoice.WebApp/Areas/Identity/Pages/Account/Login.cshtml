@@ -1,51 +1,88 @@
 ﻿@page
 @model LoginModel
 
-@{
-    ViewData["Title"] = "Prijava";
-}
-<div class="col-lg-6" style="margin: auto">
-    <div class="card card-custom">
-        <div class="card-header">
-            <h3 class="card-title">
-                Prijava
-            </h3>
-        </div>
-        <form id="account" method="post">
-            <div class="card-body">
-                <div asp-validation-summary="All" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="Input.Email"></label>
-                    <input asp-for="Input.Email" class="form-control" />
-                    <span asp-validation-for="Input.Email" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Input.Password"></label>
-                    <input asp-for="Input.Password" class="form-control" />
-                    <span asp-validation-for="Input.Password" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <div class="checkbox">
-                        <label asp-for="Input.RememberMe">
-                            <input asp-for="Input.RememberMe" />
-                            @Html.DisplayNameFor(m => m.Input.RememberMe)
-                        </label>
+@{ ViewData["Title"] = "Prijava"; }
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Prijava</title>
+    <meta name="description" content="Login page" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="canonical" href="https://keenthemes.com/metronic" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
+    <link rel="shortcut icon" href="/favicon/favicon.ico" />
+
+    @* Global theme styles (used by all pages) *@
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/theme/css/plugins.bundle.css" rel="stylesheet" type="text/css" />
+    <link href="/theme/css/prismjs.bundle.css" rel="stylesheet" type="text/css" />
+    <link href="/theme/css/style.bundle.css" rel="stylesheet" type="text/css" />
+
+    @* Layout themes (used by all pages) *@
+    <link href="/theme/css/header/base/light.css" rel="stylesheet" type="text/css" />
+    <link href="/theme/css/header/menu/light.css" rel="stylesheet" type="text/css" />
+    <link href="/theme/css/brand/dark.css" rel="stylesheet" type="text/css" />
+    <link href="/theme/css/aside/dark.css" rel="stylesheet" type="text/css" />
+
+    @* scripts *@
+    <script src="/theme/js/fullcalendar.bundle.js"></script>
+    <script src="/theme/js/plugins.bundle.js"></script>
+    <script src="/theme/js/prismjs.bundle.js"></script>
+    <script src="/theme/js/scripts.bundle.js"></script>
+    <script src="/theme/js/pages/widgets.js"></script>
+
+</head>
+<body id="kt_body" class="header-fixed header-mobile-fixed subheader-enabled subheader-fixed aside-enabled aside-fixed aside-minimize-hoverable page-loading">
+    <div class="d-flex flex-column flex-root">
+        <div class="login login-4 login-signin-on d-flex flex-row-fluid" id="kt_login">
+            <div class="d-flex flex-center flex-row-fluid bgi-size-cover bgi-position-top bgi-no-repeat" style="background-image: url(/theme/img/bg-3.jpg);">
+                <div class="login-form text-center p-7 position-relative overflow-hidden">
+                    <div class="d-flex flex-center mb-15">
+                        <a href="#">
+                            <img src="/favicon/mstile-150x150.png" class="max-h-75px" alt="" />
+                        </a>
                     </div>
-                </div>
-                <div class="form-group">
-                        <button type="submit" class="btn btn-primary">Prijava</button>
+                    <div class="login-signin">
+                        <div class="mb-20">
+                            <h3>Prijavi se</h3>
+                            <div class="text-muted font-weight-bold">Vnesi email in geslo za prijavo v sistem:</div>
+                        </div>
+                        <form class="form" id="account" method="post">
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <div class="form-group mb-5">
+                                <input class="form-control h-auto form-control-solid py-4 px-8" placeholder="Email" asp-for="Input.Email" />
+                                <span asp-validation-for="Input.Email" class="text-danger"></span>
+                            </div>
+                            <div class="form-group mb-5">
+                                <input class="form-control h-auto form-control-solid py-4 px-8" placeholder="Password" asp-for="Input.Password" />
+                                <span asp-validation-for="Input.Password" class="text-danger"></span>
+                            </div>
+                            <div class="form-group d-flex flex-wrap justify-content-between align-items-center">
+                                <div class="checkbox-inline">
+                                    <label class="checkbox m-0 text-muted">
+                                        <input type="checkbox" name="remember" asp-for="Input.RememberMe" />
+                                        <span></span>Zapomni si me
+                                    </label>
+                                </div>
+                            </div>
+                            <button id="kt_login_signin_submit" class="btn btn-primary font-weight-bold px-9 py-4 my-3 mx-4" type="submit">Prijava</button>
+                        </form>
+                        <div class="mt-10">
+                            <span class="opacity-70 mr-4">Še nimaš računa?</span>
+                            <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" id="kt_login_signup" class="text-muted text-hover-primary font-weight-bold">Registriraj se!</a>
+                        </div>
                     </div>
-                <div class="form-group">
-                    <p>
-                        Nov uporabnik? 
-                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Registrirajte se!</a>
-                    </p>
                 </div>
             </div>
-        </form>
-        
+        </div>
     </div>
-</div>
+</body>
+</html>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

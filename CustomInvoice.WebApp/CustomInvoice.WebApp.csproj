@@ -48,6 +48,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Views\404.html" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="Views\Product\Details.cshtml" />
     <None Include="Views\Product\Edit.cshtml" />
     <None Include="Views\Product\Index.cshtml" />

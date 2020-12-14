@@ -5,12 +5,14 @@ using System.Threading.Tasks;
 using CustomInvoice.WebApp.Data;
 using CustomInvoice.WebApp.Models;
 using CustomInvoice.WebApp.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Rotativa.AspNetCore;
 
 namespace CustomInvoice.WebApp.Controllers
 {
+    [Authorize]
     public class DocumentController : Controller
     {
         #region context definition
@@ -54,7 +56,7 @@ namespace CustomInvoice.WebApp.Controllers
 
             if (document == null)
             {
-                return NotFound();
+                return View("ErrorPage", id);
             }
 
             var viewModel = new DocumentDetailsModel() { Document = document, ArticlesList = articles};
@@ -69,7 +71,7 @@ namespace CustomInvoice.WebApp.Controllers
 
             if (document == null)
             {
-                return NotFound();
+                return View("ErrorPage", id);
             }
 
             var viewModel = new DocumentDetailsModel() { Document = document, ArticlesList = articles };
@@ -91,7 +93,7 @@ namespace CustomInvoice.WebApp.Controllers
 
             if (document == null)
             {
-                return NotFound();
+                return View("ErrorPage", id);
             }
 
             var viewModel = new DocumentDetailsModel() { Document = document, ArticlesList = articles };
@@ -113,7 +115,7 @@ namespace CustomInvoice.WebApp.Controllers
 
             if (document == null)
             {
-                return NotFound();
+                return View("ErrorPage", id);
             }
 
             var viewModel = new DocumentDetailsModel() { Document = document, ArticlesList = articles };
@@ -150,7 +152,7 @@ namespace CustomInvoice.WebApp.Controllers
 
             if (document == null)
             {
-                return NotFound();
+                return View("ErrorPage", id);
             }
 
             var viewModel = new DocumentEditModel()
