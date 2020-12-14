@@ -86,6 +86,47 @@ namespace CustomInvoice.WebApp.Controllers.API_controllers
             return Created("api/document/" + newId, newId);
         }
 
+        [HttpPut("{id}")]
+        public ActionResult<Document> UpdateDocument(Document document)
+        {
+            if (!ModelState.IsValid) { return BadRequest(); }
+
+            Document documentInDb = _context.Documents.SingleOrDefault(p => p.Id == document.Id);
+
+            if (documentInDb == null)
+            {
+                return NotFound();
+            }
+
+            documentInDb.ClientId = document.ClientId;
+
+            //predračun
+            documentInDb.OfferDate = document.OfferDate;
+            documentInDb.OfferValidityDays = document.OfferValidityDays;
+            documentInDb.OfferDateOfOrder = document.OfferDateOfOrder;
+
+            //račun
+            documentInDb.InvoiceDate = document.InvoiceDate;
+            documentInDb.InvoiceServiceFrom = document.InvoiceServiceFrom;
+            documentInDb.InvoiceServiceUntil = document.InvoiceServiceUntil;
+            documentInDb.InvoiceDateOfMaturity = document.InvoiceDateOfMaturity;
+            documentInDb.InvoiceDateOfOrder = document.InvoiceDateOfOrder;
+
+            //dobavnica
+            documentInDb.DeliveryNoteDate = document.DeliveryNoteDate;
+
+            //cene
+            documentInDb.TotalExcludingVAT = document.TotalExcludingVAT;
+            documentInDb.DiscountPercent = document.DiscountPercent;
+            documentInDb.DiscountAmount = document.DiscountAmount;
+            documentInDb.AmountExcludingVAT = document.AmountExcludingVAT;
+            documentInDb.AmountIncludingVAT = document.AmountIncludingVAT;
+
+            //_context.Documents.Add(documentInDb);
+            _context.SaveChanges();
+            return Ok(document.Id);
+        }
+
         [HttpDelete("{id}")]
         public ActionResult DeleteDocument(int id)
         {

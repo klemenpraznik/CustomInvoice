@@ -146,17 +146,19 @@ namespace CustomInvoice.WebApp.Controllers
             var document = _context.Documents.SingleOrDefault(p => p.Id == id);
             var articles = GetArticles().Where(a => a.DocumentId == id).ToList();
             var clients = _context.Clients.ToList();
+            var products = _context.Products.ToList();
 
             if (document == null)
             {
                 return NotFound();
             }
 
-            var viewModel = new DocumentDetailsModel()
+            var viewModel = new DocumentEditModel()
             {
                 Document = document,
                 ClientsList = clients,
-                ArticlesList = articles
+                ArticlesList = articles,
+                ProductList = products
             };
 
             return View("Edit", viewModel);

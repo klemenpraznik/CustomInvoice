@@ -1,0 +1,588 @@
+﻿@model CustomInvoice.WebApp.ViewModels.DocumentEditModel;
+
+@{ ViewData["Title"] = "Dokument"; }
+<style>
+    label {
+        display: flex;
+        align-items: center;
+    }
+
+    #dates .col-lg-4 {
+        max-width: 32.333%;
+    }
+
+    .col-lg-4 {
+        vertical-align: top;
+    }
+
+    label.bold {
+        font-weight: 600;
+    }
+</style>
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card card-custom">
+            @if (Model.Document == null)
+            {
+                <div class="card-header">
+                    <h3 class="card-title">
+                        Dodajanje novega dokumenta
+                    </h3>
+                </div> }
+            else
+            {
+                <div class="card-header">
+                    <h3 class="card-title">
+                        Urejanje dokumenta št. @Model.Document.Id
+                    </h3>
+                </div>
+            }
+
+            @using (Html.BeginForm("Save", "Document"))
+            {
+                <!--begin::Form-->
+                <form asp-action="Save">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="card-body">
+                        <input type="hidden" asp-for="Document.Id" />
+                        <div class="row">
+                            <div class="col-xl-12">
+                                <div class="my-5">
+                                    <h3 class=" text-dark font-weight-bold mb-10">Informacije o stranki:</h3>
+                                    <div class="form-group row">
+                                        <label class="col-3">Stranka</label>
+                                        <div class="col-9">
+                                            @Html.DropDownListFor(p => p.Document.ClientId, new SelectList(Model.ClientsList, "Id", "Name"), "Izberi stranko", new { @class = "form-control select2 is-valid", @id = "kt_select2_1_validate" })
+                                            @Html.ValidationMessageFor(p => p.Document.ClientId)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="separator separator-dashed my-10"></div>
+                                <div class="my-5" id="dates">
+                                    @* Račun *@
+                                    <div class="col-lg-4 d-lg-inline-block">
+                                        <h3 class=" text-dark font-weight-bold mb-10">Račun:</h3>
+                                        <div class="form-group row">
+                                            <label class="col-6 bold">Datum računa:</label>
+                                            <div class="col-6">
+                                                <input class="form-control" type="date" asp-for="Document.InvoiceDate" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-6 bold">Datum opr. storitve od:</label>
+                                            <div class="col-6">
+                                                <input class="form-control" type="date" asp-for="Document.InvoiceServiceFrom" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-6 bold">Datum opr. storitve do:</label>
+                                            <div class="col-6">
+                                                <input class="form-control" type="date" asp-for="Document.InvoiceServiceUntil"  />
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-6 bold">Datum zapadlosti:</label>
+                                            <div class="col-6">
+                                                <input class="form-control" type="date" asp-for="Document.InvoiceDateOfMaturity"  />
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-6 bold">Datum naročila:</label>
+                                            <div class="col-6">
+                                                <input class="form-control" type="date" asp-for="Document.InvoiceDateOfOrder"  />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @* Predračun *@
+                                    <div class="col-lg-4 d-lg-inline-block">
+                                        <h3 class=" text-dark font-weight-bold mb-10">Predračun:</h3>
+                                        <div class="form-group row">
+                                            <label class="col-6 bold">Datum predračuna:</label>
+                                            <div class="col-6">
+                                                <input class="form-control" type="date" asp-for="Document.OfferDate"  />
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-6 bold">Veljavnost dni:</label>
+                                            <div class="col-6">
+                                                <input class="form-control" type="number" min="0" max="1000" asp-for="Document.OfferValidityDays" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-6 bold">Datum naročila:</label>
+                                            <div class="col-6">
+                                                <input class="form-control" type="date" asp-for="Document.OfferDateOfOrder"  />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @* Dobavnica *@
+                                    <div class="col-lg-4 d-lg-inline-block">
+                                        <h3 class=" text-dark font-weight-bold mb-10">Dobavnica:</h3>
+                                        <div class="form-group row">
+                                            <label class="col-6 bold">Datum dobavnice:</label>
+                                            <div class="col-6">
+                                                <input class="form-control" type="date" asp-for="Document.DeliveryNoteDate"  />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="separator separator-dashed my-10"></div>
+                                <div class="my-5">
+                                    <h3 class=" text-dark font-weight-bold mb-10">Postavke:</h3>
+
+                                    <table class="table table-striped table-hover" id="tab_logic">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th class="text-center">
+                                                    Izdelek
+                                                </th>
+                                                <th class="text-center">
+                                                    Količina
+                                                </th>
+                                                <th class="text-center">
+                                                    Znesek brez DDV
+                                                </th>
+                                                <th class="text-center">
+                                                    Popust
+                                                </th>
+                                                <th class="text-center">
+                                                    Davek
+                                                </th>
+                                                <th class="text-center" style="border-top: 1px solid white; border-right: 1px solid white;"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{ int i = 0; } 
+                                            @foreach (var article in Model.ArticlesList)
+                                            {
+                                                string rowId = "addr" + i.ToString();
+                                                <tr @*class="articlesTableRow hidden"*@ id="@rowId" data-id="@i">
+                                                    <td id="item" data-name="item">
+                                                        <select name="item0" class="form-control" onchange="getTotals2()" value="@article.Product.Id">
+                                                            <option value="">Izberi izdelek</option>
+                                                            @{
+                                                                foreach (var product in Model.ProductList) //$("[name='sel1']").val();
+                                                                {
+                                                                    if (product.Id == article.Product.Id)
+                                                                    {
+                                                                        <option value="@product.Id" data-item-price="@product.SellingPrice" selected>@product.Name</option>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <option value="@product.Id" data-item-price="@product.SellingPrice">@product.Name</option>
+                                                                    }
+                                                                }
+                                                            }
+                                                        </select>
+                                                    </td>
+                                                    <td id="quantity" data-name="quantity">
+                                                        <input id="kolicina" class="form-control" label="Količina" type="number" name='q0' min="1" step="1" value="@article.Quantity" onchange="getTotals2()" />
+                                                    </td>
+                                                    <td id="price" data-name="price">
+                                                        <input id="cena" type="text" name='price0' class="form-control" disabled />
+                                                    </td>
+                                                    <td id="disc" data-name="disc">
+                                                        <input class="form-control" type="number" name='disc0' min="0" step="0.1" value="@article.Discount" onchange="getTotals2()" />
+                                                    </td>
+                                                    <td data-name="tax">
+                                                        @if (article.TaxRate == (decimal)9.5)
+                                                        {
+                                                            <select id="davek" name="tax0" class="form-control" onchange="getTotals2()">
+                                                                <option value="22" data-item-taxRate="22">22 %</option>
+                                                                <option value="9.5" data-item-taxRate="9.5" selected>9.5 %</option>
+                                                            </select>
+                                                        }
+                                                        else
+                                                        {
+                                                            <select id="davek" name="tax0" class="form-control" onchange="getTotals2()">
+                                                                <option value="22" data-item-taxRate="22" selected>22 %</option>
+                                                                <option value="9.5" data-item-taxRate="9.5">9.5 %</option>
+                                                            </select>
+                                                        }
+
+                                                    </td>
+
+                                                    <td data-name="del">
+                                                        <button name="del0" class='btn btn-danger flaticon-circle row-remove'></button>
+                                                    </td>
+                                                </tr>
+                                                i++;
+                                             }
+                                             
+                                        </tbody>
+                                    </table>
+                                    <a id="add_row" class="btn btn-success btn-circle btn-xl">
+                                        <i class="fas fa-plus"></i>
+                                    </a>
+
+                                </div>
+                                <div class="separator separator-dashed my-10"></div>
+                                <div class="my-5">
+                                    <div class="col-lg-4">
+                                        <div class="form-group row">
+                                            <label class="col-6">Skupaj brez DDV:</label>
+                                            <div class="col-6">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend"><span class="input-group-text">€</span></div>
+                                                    <input id="skupaj-brez-ddv" class="form-control" value="@Model.Document.TotalExcludingVAT" disabled />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group row">
+                                            <label class="col-6">Popust:</label>
+                                            <div class="col-6">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend"><span class="input-group-text">€</span></div>
+                                                    <input id="popust" class="form-control" value="@Model.Document.DiscountAmount" disabled />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group row">
+                                            <label class="col-6">Znesek brez DDV:</label>
+                                            <div class="col-6">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend"><span class="input-group-text">€</span></div>
+                                                    <input id="znesek-brez-ddv" class="form-control" value="@Model.Document.AmountExcludingVAT" disabled />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group row">
+                                            <label class="col-6 bold">Znesek z DDV:</label>
+                                            <div class="col-6">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend"><span class="input-group-text">€</span></div>
+                                                    <input id="znesek-z-ddv" class="form-control" value="@Model.Document.AmountIncludingVAT" disabled />
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        @Html.AntiForgeryToken()
+                        <input type="submit" id="js_add" value="Shrani" class="btn btn-primary" />
+                        <a class="btn btn-secondary" asp-action="Index">Nazaj</a>
+                    </div>
+                </form>
+                }
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/lib/select2/js/select2.full.min.js"></script>
+    <script src="~/lib/select2/js/select2.js"></script>
+    <script src="~/theme/js/select2.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        var docId = -1;
+        var skupajBrezDdv95 = 0;
+        var skupajBrezDdv22 = 0;
+        var znesekBrezDdv = 0;
+        var znesekPopusti = 0;
+
+        $("#js_add").click(function (e) {
+            e.preventDefault();
+            docId = -1;
+            skupajBrezDdv95 = 0;
+            skupajBrezDdv22 = 0;
+            znesekBrezDdv = 0;
+            znesekPopusti = 0;
+            montaza = 0;
+            getTotals();
+
+            var newDocument = {};
+            newDocument.id = @Model.Document.Id;
+
+            //stranka
+            newDocument.clientId = parseInt($('#kt_select2_1_validate').val());
+
+            //račun
+            newDocument.invoiceDate = $('#Document_InvoiceDate').val() === "" ? null : $('#Document_InvoiceDate').val();
+            //if (newDocument.invoiceDate === "") { newDocument.invoiceDate = null; }
+
+            newDocument.invoiceServiceFrom = $('#Document_InvoiceServiceFrom').val() === "" ? null : $('#Document_InvoiceServiceFrom').val();
+            newDocument.invoiceServiceUntil = $('#Document_InvoiceServiceUntil').val() === "" ? null : $('#Document_InvoiceServiceUntil').val();
+            newDocument.invoiceDateOfMaturity = $('#Document_InvoiceDateOfMaturity').val() === "" ? null : $('#Document_InvoiceDateOfMaturity').val();;
+            newDocument.invoiceDateOfOrder = $('#Document_InvoiceDateOfOrder').val() === "" ? null : $('#Document_InvoiceDateOfOrder').val();
+
+            //predračun
+            newDocument.offerDate = $('#Document_OfferDate').val() === "" ? null : $('#Document_OfferDate').val();
+            newDocument.offerValidityDays = $('#Document_OfferValidityDays').val() === "" ? null : parseInt($('#Document_OfferValidityDays').val());
+            newDocument.offerDateOfOrder = $('#Document_OfferDateOfOrder').val() === "" ? null : $('#Document_OfferDateOfOrder').val();
+
+            //dobavnica
+            newDocument.deliveryNoteDate = $('#Document_DeliveryNoteDate').val() === "" ? null : $('#Document_DeliveryNoteDate').val();
+
+            //cene
+            newDocument.totalExcludingVAT = parseFloat(znesekBrezDdv);
+            newDocument.discountAmount = parseFloat(znesekPopusti);
+            newDocument.amountExcludingVAT = parseFloat(znesekBrezDdv - znesekPopusti);
+            newDocument.amountIncludingVAT = parseFloat((znesekBrezDdv - znesekPopusti) + (skupajBrezDdv95 * 0.095) + (skupajBrezDdv22 * 0.22));
+            newDocument.paidAmount = 0;
+            newDocument.isPreforma = false;
+            newDocument.isInvoice = false;
+            newDocument.isDeliveryNote = false;
+
+            //JSON string
+            var documentJson = JSON.stringify(newDocument);
+            //console.log(newDocument);
+            //console.log(documentJson);
+
+            $.ajax({
+                url: "/api/document/" + @Model.Document.Id,
+                contentType: "application/json",
+                data: documentJson,
+                method: "PUT",
+                success: function (data) {
+                    docId = parseInt(data);
+                    //console.log("Success: " + data);
+                    //bootbox.alert("Dokument s št. '" + docId + "' je biu uspešno ustvarjen!");
+                    articles(docId);
+                },
+                fail: function (data) {
+                    bootbox.alert("Prišlo je do napake pri spreminjanju dokumenta: (" + data + ")");
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert("Prišlo je do napake: " + jqXHR.status + " (" + errorThrown + ") pri spreminjanju dokumenta.");
+                },
+            });
+        });
+
+        function getTotals() {
+            var articlesList = [];
+
+            $.each($("#tab_logic tbody tr"), function () {
+                var neki = {};
+                neki.documentId = docId;
+                neki.productId = $(this).find('td:eq(0) select').val();
+                neki.quantity = $(this).find('td:eq(1) input').val();
+                neki.discount = $(this).find('td:eq(3) input').val();
+                neki.taxRate = $(this).find('td:eq(4) select').find(':selected').attr('data-item-taxRate');
+                var total = neki.quantity * $(this).find('td:eq(0) select').find(':selected').attr('data-item-price');
+                if (!isNaN(total)) {
+                    znesekBrezDdv += eval(total);
+                    neki.price = total - (total * neki.discount / 100);
+                    znesekPopusti += total * neki.discount / 100;
+
+                    if (neki.taxRate == "9.5") {
+                        skupajBrezDdv95 += neki.price;
+                    }
+                    else if (neki.taxRate == "22") {
+                        skupajBrezDdv22 += neki.price;
+                    }
+                }
+                //console.log("znesek brez ddv: " + eval(znesekBrezDdv));
+
+
+                articlesList.push(neki);
+            });
+        }
+
+        function getTotals2() {
+            var skupajBrezDdv95 = 0;
+            var skupajBrezDdv22 = 0;
+            var znesekBrezDdv = 0;
+            var znesekPopusti = 0;
+            var articlesList = [];
+
+            $.each($("#tab_logic tbody tr"), function () {
+                var neki = {};
+                neki.documentId = docId;
+                neki.productId = $(this).find('td:eq(0) select').val();
+                neki.quantity = $(this).find('td:eq(1) input').val();
+                neki.discount = $(this).find('td:eq(3) input').val();
+                neki.taxRate = $(this).find('td:eq(4) select').find(':selected').attr('data-item-taxRate');
+                var total = neki.quantity * $(this).find('td:eq(0) select').find(':selected').attr('data-item-price');
+
+
+                if (!isNaN(total)) {
+                    znesekBrezDdv += eval(total);
+                }
+                neki.price = total - (total * neki.discount / 100);
+                znesekPopusti += total * neki.discount / 100;
+
+                $(this).find('td:eq(2) input').val(neki.price.toFixed(2) + " €");
+
+
+                if (neki.taxRate == "9.5") {
+                    skupajBrezDdv95 += neki.price;
+                }
+                else if (neki.taxRate == "22") {
+                    skupajBrezDdv22 += neki.price;
+                }
+                //console.log("znesek brez ddv: " + eval(znesekBrezDdv));
+
+
+                articlesList.push(neki);
+            });
+
+            $("#skupaj-brez-ddv").val(parseFloat(znesekBrezDdv).toFixed(2));
+            $("#popust").val(parseFloat(znesekPopusti).toFixed(2));
+            $("#znesek-brez-ddv").val(parseFloat(znesekBrezDdv - znesekPopusti).toFixed(2));
+            $("#znesek-z-ddv").val(parseFloat((znesekBrezDdv - znesekPopusti) + (skupajBrezDdv95 * 0.095) + (skupajBrezDdv22 * 0.22)).toFixed(2));
+        }
+
+        $(document).ready(function () {
+            getTotals2();
+        });
+
+        $("#tab_logic").on("click", function () {
+            getTotals2();
+        });
+
+        function articles(docId) {
+            var postObject = {};
+            postObject.documentId = parseInt(docId);
+
+            var articlesList = [];
+            $.each($("#tab_logic tbody tr"), function () {
+                var neki = {};
+                neki.documentId = docId;
+                neki.productId = parseInt($(this).find('td:eq(0) select').val());
+                neki.quantity = parseInt($(this).find('td:eq(1) input').val());
+                neki.discount = parseFloat($(this).find('td:eq(3) input').val());
+                neki.taxRate = parseFloat($(this).find('td:eq(4) select').find(':selected').attr('data-item-taxRate'));
+                var total = neki.quantity * $(this).find('td:eq(0) select').find(':selected').attr('data-item-price');
+                znesekBrezDdv += total;
+                neki.price = total - (total * neki.discount / 100);
+                znesekPopusti += total * neki.discount / 100;
+
+                if (neki.taxRate == "9.5") {
+                    skupajBrezDdv95 += neki.price;
+                }
+                else if (neki.taxRate == "22") {
+                    skupajBrezDdv22 += neki.price;
+                }
+                articlesList.push(neki);
+            });
+
+            postObject.articles = articlesList;
+            //var articlesJson = JSON.stringify(articlesList);
+            var articlesJson = JSON.stringify(postObject);
+            console.log(articlesJson);
+            $.ajax({
+                url: "/api/articles/" + docId,
+                contentType: "application/json",
+                data: articlesJson,
+                method: "POST",
+                success: function () {
+                    bootbox.confirm("Dokument s št. '" + docId + "' je biu uspešno posodobljen!", function (result) {
+                        location.href = "/document/details/" + docId;
+                    });
+
+                },
+                fail: function (data) {
+                    bootbox.alert("Prišlo je do napake (" + data + ")");
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert("Prišlo je do napake: " + jqXHR.status + " (" + errorThrown + ") pri dodajanju postavk. Preverite vnosna polja pri postavkah!");
+                    $.ajax({
+                        url: "/api/document/" + docId,
+                        method: "DELETE",
+                        success: function () {
+
+                        }
+                    });
+                },
+            });
+        }
+    </script>
+
+
+    <script>
+        $(document).ready(function () {
+            $("#add_row").on("click",
+                function () {
+                    // Dynamic Rows Code
+
+                    // Get max row id and set new id
+                    var newid = 0;
+                    $.each($("#tab_logic tr"),
+                        function () {
+                            if (parseInt($(this).data("id")) > newid) {
+                                newid = parseInt($(this).data("id"));
+                            }
+                        });
+                    newid++;
+
+                    var tr = $("<tr></tr>",
+                        {
+                            id: "addr" + newid,
+                            "data-id": newid
+                        });
+
+                    // loop through each td and create new elements with name of newid
+                    $.each($("#tab_logic tbody tr:nth(0) td"),
+                        function () {
+                            var td;
+                            var cur_td = $(this);
+
+                            var children = cur_td.children();
+
+                            // add new td and element if it has a nane
+                            if ($(this).data("name") !== undefined) {
+                                td = $("<td></td>",
+                                    {
+                                        "data-name": $(cur_td).data("name"),
+                                    });
+
+                                var c = $(cur_td).find($(children[0]).prop('tagName')).clone().val("");
+                                c.attr("name", $(cur_td).data("name") + newid);
+                                c.appendTo($(td));
+                                td.appendTo($(tr));
+                            } else {
+                                td = $("<td></td>",
+                                    {
+                                        'text': $('#tab_logic tr').length
+                                    }).appendTo($(tr));
+                            }
+                        });
+
+
+                    // add delete button and td
+                    /*
+                    $("<td></td>").append(
+                        $("<button class='btn btn-danger glyphicon glyphicon-remove row-remove'></button>")
+                            .click(function() {
+                                $(this).closest("tr").remove();
+                            })
+                    ).appendTo($(tr));
+                    */
+
+                    // add the new row
+                    $(tr).appendTo($('#tab_logic'));
+
+                    //$(tr).find("td button.row-remove").on("click",
+                    //    function () {
+                    //        $(this).closest("tr").remove();
+                    //    });
+
+                    $("#addr" + newid).find('td:eq(1) input').val(1);
+                    $("#addr" + newid).find('td:eq(3) input').val(0);
+                    $("#addr" + newid).find('td:eq(4) select').val("22");
+
+                });
+
+        });
+
+        $(document).ready(function () {
+            $("td button.row-remove").on("click",
+                function () {
+                    $(this).closest("tr").remove();
+                });
+        });
+    </script>
+}
