@@ -349,7 +349,7 @@
                 success: function (data) {
                     docId = parseInt(data);
                     //console.log("Success: " + data);
-                    //bootbox.alert("Dokument s št. '" + docId + "' je biu uspešno ustvarjen!");
+                    //bootbox.alert("Dokument s št. '" + docId + "' je bil uspešno ustvarjen!");
                     articles(docId);
                 },
                 fail: function (data) {
@@ -479,7 +479,7 @@
                 data: articlesJson,
                 method: "POST",
                 success: function () {
-                    bootbox.confirm("Dokument s št. '" + docId + "' je biu uspešno posodobljen!", function (result) {
+                    bootbox.confirm("Dokument s št. '" + docId + "' je bil uspešno posodobljen!", function (result) {
                         location.href = "/document/details/" + docId;
                     });
 

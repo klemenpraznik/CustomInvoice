@@ -271,7 +271,7 @@
                                     url: "/api/document/" + @Model.Document.Id,
                                     method: "DELETE",
                                     success: function () {
-                                        bootbox.confirm("Dokument s št. '" + @Model.Document.Id + "' je biu uspešno izbrisan!", function (result) {
+                                        bootbox.confirm("Dokument s št. '" + @Model.Document.Id + "' je bil uspešno izbrisan!", function (result) {
                                             location.href = "/document";
                                         });
                                     }

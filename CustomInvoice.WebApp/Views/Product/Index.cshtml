@@ -23,13 +23,13 @@
                 <table id="products" class="hover table table-bordered dt-responsive nowrap" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th scope="col" data-priority="3">#</th>
+                            <th scope="col" data-priority="2">#</th>
                             <th scope="col" data-priority="1">Ime</th>
-                            <th scope="col" data-priority="4">Prodajna cena</th>
-                            <th scope="col" data-priority="5">Dobavitelj</th>
-                            <th scope="col" data-priority="6">Kategorija</th>
-                            <th scope="col" data-priority="7">Tip</th>
-                            <th scope="col" data-priority="2">Akcije</th>
+                            <th scope="col">Prodajna cena</th>
+                            <th scope="col">Dobavitelj</th>
+                            <th scope="col">Kategorija</th>
+                            <th scope="col">Tip</th>
+                            <th scope="col" data-priority="3">Akcije</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -50,6 +50,7 @@
     <script>
         $(document).ready(function () {
             var table = $("#products").DataTable({
+                responsive: true,
                 ajax: {
                     url: "/api/product",
                     dataSrc: ""
@@ -62,23 +63,33 @@
                     {
                         data: "name",
                         render: function (data, type, product) {
-                            return "<b>" + data + "</b>";
-                        }
+                            if (data.length < 30) {
+                                return "<b>" + data + "</b>";
+                            }
+                            else {
+                                return "<b>" + data.substring(0, 27) + "...</b>";
+                            }
+                        },
+                        responsivePriority: 1,
+                        targets: 0
                     },
                     {
                         data: "sellingPrice",
                         defaultContent: "",
                         render: function (data, type, product) {
                             return data + " €";
-                        }
+                        },
+                        width: 50
                     },
                     {
                         data: "partner.name",
-                        defaultContent: ""
+                        defaultContent: "",
+                        width: 80
                     },
                     {
                         data: "category.name",
-                        defaultContent: ""
+                        defaultContent: "",
+                        width: 80
                     },
                     {
                         data: "type",
@@ -87,7 +98,8 @@
                                 return "<span class='label font-weight-bold label-lg label-light-info label-inline'>" + data + "</span>";
                             }
                             return "<span class='label font-weight-bold label-lg label-light-primary label-inline'>" + data + "</span>"
-                        }
+                        },
+                        width: 40
                     },
                     {
                         data: "id",
@@ -104,8 +116,7 @@
                 language: {
                     "url": "//cdn.datatables.net/plug-ins/1.10.22/i18n/Slovenian.json"
                 },
-                autoWidth: true,
-                responsive: true
+                autoWidth: true
             });
             $("#products").on("click", ".js-delete",
                 function () {
