@@ -35,7 +35,7 @@ namespace CustomInvoice.WebApp
                     Configuration.GetConnectionString("AzureConnection")));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-            services.AddControllersWithViews();
+            services.AddControllersWithViews(x => x.SuppressAsyncSuffixInActionNames = false).AddRazorRuntimeCompilation();
             services.AddRazorPages();
 
             services.AddSwaggerGen();

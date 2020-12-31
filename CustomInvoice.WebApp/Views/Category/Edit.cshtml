@@ -1,7 +1,14 @@
 ﻿@model CustomInvoice.WebApp.ViewModels.CategoryFormViewModel
 
 @{
-    ViewData["Title"] = "Urejanje";
+    if (Model.Category == null)
+    {
+        ViewData["Title"] = "Dodajanje kategorije";
+    }
+    else
+    {
+        ViewData["Title"] = "Urejanje kategorije";
+    }
 }
 
 <div class="row col-lg-12">

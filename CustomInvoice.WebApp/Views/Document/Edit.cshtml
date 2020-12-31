@@ -1,6 +1,6 @@
 ﻿@model CustomInvoice.WebApp.ViewModels.DocumentEditModel;
 
-@{ ViewData["Title"] = "Dokument"; }
+@{ ViewData["Title"] = "Dokument " + Model.Document.Id; }
 <style>
     label {
         display: flex;
@@ -553,22 +553,22 @@
 
 
                     // add delete button and td
-                    /*
-                    $("<td></td>").append(
-                        $("<button class='btn btn-danger glyphicon glyphicon-remove row-remove'></button>")
-                            .click(function() {
-                                $(this).closest("tr").remove();
-                            })
-                    ).appendTo($(tr));
-                    */
+                    
+                    //$("<td></td>").append(
+                    //    $("<button class='btn btn-danger glyphicon glyphicon-remove row-remove'></button>")
+                    //        .click(function() {
+                    //            $(this).closest("tr").remove();
+                    //        })
+                    //).appendTo($(tr));
+                    
 
                     // add the new row
                     $(tr).appendTo($('#tab_logic'));
 
-                    //$(tr).find("td button.row-remove").on("click",
-                    //    function () {
-                    //        $(this).closest("tr").remove();
-                    //    });
+                    $(tr).find("td button.row-remove").on("click",
+                        function () {
+                            $(this).closest("tr").remove();
+                        });
 
                     $("#addr" + newid).find('td:eq(1) input').val(1);
                     $("#addr" + newid).find('td:eq(3) input').val(0);

@@ -1,6 +1,6 @@
 ﻿@model CustomInvoice.WebApp.ViewModels.DocumentEditModel;
 
-@{ ViewData["Title"] = "Dokument"; }
+@{ ViewData["Title"] = "Nov dokument"; }
 <style>
     label {
         display: flex;
@@ -19,7 +19,7 @@
         font-weight: 600;
     }
 </style>
-
+<link rel="stylesheet" href="~/css/custom-mobile.css">
 
 <div class="row">
     <div class="col-lg-12">
@@ -444,7 +444,7 @@ else
                 data: articlesJson,
                 method: "POST",
                 success: function () {
-                    bootbox.confirm("Dokument s št. '" + docId + "' je biu uspešno ustvarjen!", function (result) {
+                    bootbox.confirm("Dokument s št. '" + docId + "' je bil uspešno ustvarjen!", function (result) {
                         location.href = "/document/details/" + docId;
                     });
                     

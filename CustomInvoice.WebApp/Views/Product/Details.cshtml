@@ -1,7 +1,19 @@
 ﻿@model CustomInvoice.WebApp.Models.Product
 
 @{
-    ViewData["Title"] = "O izdelku / storitvi";
+    if (Model.Type == "Artikel")
+    {
+        ViewData["Title"] = "O izdelku";
+    }
+    else if (Model.Type == "Storitev")
+    {
+        ViewData["Title"] = "O storitvi";
+
+    }
+    else
+    {
+        ViewData["Title"] = "O izdelku / storitvi";
+    }
 }
 
 <div class="row">

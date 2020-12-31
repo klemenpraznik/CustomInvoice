@@ -1,7 +1,14 @@
 ﻿@model CustomInvoice.WebApp.ViewModels.PartnerFormViewModel
 
 @{
-    ViewData["Title"] = "Edit";
+    if (Model.Partner == null)
+    {
+        ViewData["Title"] = "Dodajanje partnerja";
+    }
+    else
+    {
+        ViewData["Title"] = "Urejanje partnerja";
+    }
 }
 
 <div class="row">

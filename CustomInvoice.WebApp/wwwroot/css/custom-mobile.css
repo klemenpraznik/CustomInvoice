@@ -1,0 +1,10 @@
+﻿@media only screen and (max-width: 600px) {
+    .col-lg-4 {
+        max-width: 100%!important;
+        width: 100%!important;
+        padding: 0!important;
+    }
+    #kt_header_mobile_toggle {
+        display: none!important;
+    }
+}

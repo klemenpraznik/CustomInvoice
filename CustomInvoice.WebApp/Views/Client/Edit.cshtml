@@ -1,17 +1,24 @@
 ﻿@model CustomInvoice.WebApp.ViewModels.ClientFormViewModel
 
 @{
-    ViewData["Title"] = "Edit";
+    if (Model.Client == null)
+    {
+        ViewData["Title"] = "Dodajanje stranke";
+    }
+    else
+    {
+        ViewData["Title"] = "Urejanje stranke";
+    }
 }
 @{
     var selectList = new SelectList(
-        new List<SelectListItem>
-        {
+new List<SelectListItem>
+{
             new SelectListItem {Text = "Fizična oseba", Value = "Fizična oseba"},
             new SelectListItem {Text = "Pravna oseba", Value = "Pravna oseba"},
             new SelectListItem {Text = "Samostojni podjetnik", Value = "s.p."},
             new SelectListItem {Text = "Drugo", Value = "Drugo"},
-                                }, "Value", "Text");
+                        }, "Value", "Text");
 }
 <div class="row">
     <div class="card card-custom">

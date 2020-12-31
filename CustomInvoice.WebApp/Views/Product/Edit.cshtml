@@ -1,6 +1,21 @@
 ﻿@model CustomInvoice.WebApp.ViewModels.ProductFormViewModel
 
-@{ ViewData["Title"] = "Edit"; }
+@{ 
+    if (Model.Product == null)
+    {
+        ViewData["Title"] = "Dodajanje izdelka/storitve";
+    }
+    else if (Model.Product.Type == "Artikel")
+    {
+        ViewData["Title"] = "Urejanje izdelka";
+    }
+    else if (Model.Product.Type == "Storitev")
+    {
+        ViewData["Title"] = "Urejanje storitve";
+
+    }
+}
+
 <div class="row">
     <div class="card card-custom  col-lg-12">
         @if (Model.Product == null)
@@ -10,22 +25,22 @@
         Dodajanje novega izdelka / storitve
     </h3>
 </div> }
-            else if (Model.Product.Type == "Artikel")
-            {
+else if (Model.Product.Type == "Artikel")
+{
 <div class="card-header">
     <h3 class="card-title">
         Urejanje izdelka - @Model.Product.Name
     </h3>
 </div> }
-            else if (Model.Product.Type == "Storitev")
-            {
+else if (Model.Product.Type == "Storitev")
+{
 <div class="card-header">
     <h3 class="card-title">
         Urejanje storitve - @Model.Product.Name
     </h3>
 </div> }
-            else
-            {
+else
+{
 <div class="card-header">
     <h3 class="card-title">
         Urejanje izdelka / storitve - @Model.Product.Name
@@ -34,101 +49,101 @@
 
         @using (Html.BeginForm("Save", "Product"))
         {<!--begin::Form-->
-                <form asp-action="Save" method="post">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="card-body">
-                        <input type="hidden" asp-for="Product.Id" />
-                        <div class="form-group row">
-                            @* Prva vrstica *@
-                            <div class="col-lg-8">
-                                <label asp-for="Product.Name" class="control-label"></label>
-                                <input asp-for="Product.Name" class="form-control" />
-                                <span asp-validation-for="Product.Name" class="text-danger"></span>
-                            </div>
-                            <div class="col-lg-4">
-                                <label asp-for="Product.ShortName" class="control-label"></label>
-                                <input asp-for="Product.ShortName" class="form-control" />
-                                <span asp-validation-for="Product.ShortName" class="text-danger"></span>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            @* druga vrstica *@
-                            <div class="col-lg-4">
-                                <label asp-for="Product.Manufacturer" class="control-label"></label>
-                                <input asp-for="Product.Manufacturer" class="form-control" />
-                                <span asp-validation-for="Product.Manufacturer" class="text-danger"></span>
-                            </div>
-                            <div class="col-lg-4">
-                                <label asp-for="Product.PartnerId" class="control-label"></label>
-                                @*<input asp-for="Partner.StreetNumber" class="form-control" />*@
-                                @Html.DropDownListFor(p => p.Product.PartnerId, new SelectList(Model.PartnersList, "Id", "Name"), "Izberi dobavitelja", new { @class = "form-control select2 is-valid", @id = "kt_select2_1_validate" })
-                                @*<span asp-validation-for="Partner.StreetNumber" class="text-danger"></span>*@
-                                @Html.ValidationMessageFor(p => p.Product.PartnerId)
-                            </div>
-                            <div class="col-lg-4">
-                                <label asp-for="Product.CategoryId" class="control-label"></label>
-                                @*<input asp-for="Partner.StreetNumber" class="form-control" />*@
-                                @Html.DropDownListFor(p => p.Product.CategoryId, new SelectList(Model.CategoriesList, "Id", "Name"), "Izberi kategorije", new { @class = "form-control select2 is-valid", @id = "kt_select2_2_validate", @style = "width: inherit" })
-                                @*<span asp-validation-for="Partner.StreetNumber" class="text-danger"></span>*@
-                                @Html.ValidationMessageFor(p => p.Product.CategoryId)
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            @* Trejta vrstica *@
-                            <div class="col-lg-4">
-                                <label asp-for="Product.WarrantyInMonths" class="control-label"></label>
-                                <input asp-for="Product.WarrantyInMonths" class="form-control" />
-                                <span asp-validation-for="Product.WarrantyInMonths" class="text-danger"></span>
-                            </div>
-                            <div class="col-lg-4">
-                                <label asp-for="Product.Type" class="control-label"></label>
-                                <select class="form-control" asp-for="Product.Type">
-                                    <option>Artikel</option>
-                                    <option>Storitev</option>
-                                </select>
-                                <span asp-validation-for="Product.Type" class="text-danger"></span>
-                            </div>
-                            <div class="col-lg-4">
-                                <label asp-for="Product.UnitOfMeasure" class="control-label"></label>
-                                <select class="form-control select2 is-valid" id="kt_select2_3_validate" asp-for="Product.UnitOfMeasure">
-                                    <option value="kos">Kos</option>
-                                    <option value="h">Ura</option>
-                                    <option value="kg">Kilogram</option>
-                                    <option value="km">Kilometer</option>
-                                    <option value="komplet">Komplet</option>
-                                    <option value="l">Liter</option>
-                                    <option value="m">Meter</option>
-                                    <option value="m2">Kvadratni meter</option>
-                                    <option value="x">x</option>
-                                </select>
-                                <span asp-validation-for="Product.UnitOfMeasure" class="text-danger"></span>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            @* cetrta vrstica *@
-                            <div class="col-lg-6">
-                                <label asp-for="Product.PurchasePrice" class="control-label"></label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend"><span class="input-group-text">€</span></div>
-                                    <input asp-for="Product.PurchasePrice" class="form-control" />
+                            <form asp-action="Save" method="post">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <div class="card-body">
+                                    <input type="hidden" asp-for="Product.Id" />
+                                    <div class="form-group row">
+                                        @* Prva vrstica *@
+                                        <div class="col-lg-8">
+                                            <label asp-for="Product.Name" class="control-label"></label>
+                                            <input asp-for="Product.Name" class="form-control" />
+                                            <span asp-validation-for="Product.Name" class="text-danger"></span>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <label asp-for="Product.ShortName" class="control-label"></label>
+                                            <input asp-for="Product.ShortName" class="form-control" />
+                                            <span asp-validation-for="Product.ShortName" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        @* druga vrstica *@
+                                        <div class="col-lg-4">
+                                            <label asp-for="Product.Manufacturer" class="control-label"></label>
+                                            <input asp-for="Product.Manufacturer" class="form-control" />
+                                            <span asp-validation-for="Product.Manufacturer" class="text-danger"></span>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <label asp-for="Product.PartnerId" class="control-label"></label>
+                                            @*<input asp-for="Partner.StreetNumber" class="form-control" />*@
+                                            @Html.DropDownListFor(p => p.Product.PartnerId, new SelectList(Model.PartnersList, "Id", "Name"), "Izberi dobavitelja", new { @class = "form-control select2 is-valid", @id = "kt_select2_1_validate" })
+                                            @*<span asp-validation-for="Partner.StreetNumber" class="text-danger"></span>*@
+                                            @Html.ValidationMessageFor(p => p.Product.PartnerId)
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <label asp-for="Product.CategoryId" class="control-label"></label>
+                                            @*<input asp-for="Partner.StreetNumber" class="form-control" />*@
+                                            @Html.DropDownListFor(p => p.Product.CategoryId, new SelectList(Model.CategoriesList, "Id", "Name"), "Izberi kategorije", new { @class = "form-control select2 is-valid", @id = "kt_select2_2_validate", @style = "width: inherit" })
+                                            @*<span asp-validation-for="Partner.StreetNumber" class="text-danger"></span>*@
+                                            @Html.ValidationMessageFor(p => p.Product.CategoryId)
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        @* Trejta vrstica *@
+                                        <div class="col-lg-4">
+                                            <label asp-for="Product.WarrantyInMonths" class="control-label"></label>
+                                            <input asp-for="Product.WarrantyInMonths" class="form-control" />
+                                            <span asp-validation-for="Product.WarrantyInMonths" class="text-danger"></span>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <label asp-for="Product.Type" class="control-label"></label>
+                                            <select class="form-control" asp-for="Product.Type">
+                                                <option>Artikel</option>
+                                                <option>Storitev</option>
+                                            </select>
+                                            <span asp-validation-for="Product.Type" class="text-danger"></span>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <label asp-for="Product.UnitOfMeasure" class="control-label"></label>
+                                            <select class="form-control select2 is-valid" id="kt_select2_3_validate" asp-for="Product.UnitOfMeasure">
+                                                <option value="kos">Kos</option>
+                                                <option value="h">Ura</option>
+                                                <option value="kg">Kilogram</option>
+                                                <option value="km">Kilometer</option>
+                                                <option value="komplet">Komplet</option>
+                                                <option value="l">Liter</option>
+                                                <option value="m">Meter</option>
+                                                <option value="m2">Kvadratni meter</option>
+                                                <option value="x">x</option>
+                                            </select>
+                                            <span asp-validation-for="Product.UnitOfMeasure" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        @* cetrta vrstica *@
+                                        <div class="col-lg-6">
+                                            <label asp-for="Product.PurchasePrice" class="control-label"></label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend"><span class="input-group-text">€</span></div>
+                                                <input asp-for="Product.PurchasePrice" class="form-control" />
+                                            </div>
+                                            <span asp-validation-for="Product.PurchasePrice" class="text-danger"></span>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label asp-for="Product.SellingPrice" class="control-label"></label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend"><span class="input-group-text">€</span></div>
+                                                <input asp-for="Product.SellingPrice" class="form-control" />
+                                            </div>
+                                            <span asp-validation-for="Product.SellingPrice" class="text-danger"></span>
+                                        </div>
+                                    </div>
                                 </div>
-                                <span asp-validation-for="Product.PurchasePrice" class="text-danger"></span>
-                            </div>
-                            <div class="col-lg-6">
-                                <label asp-for="Product.SellingPrice" class="control-label"></label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend"><span class="input-group-text">€</span></div>
-                                    <input asp-for="Product.SellingPrice" class="form-control" />
+                                <div class="card-footer">
+                                    <input type="submit" value="Shrani" class="btn btn-primary" />
+                                    <a asp-area="" asp-controller="Product" asp-action="Index" class="btn btn-secondary">Prekliči</a>
                                 </div>
-                                <span asp-validation-for="Product.SellingPrice" class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-footer">
-                        <input type="submit" value="Shrani" class="btn btn-primary" />
-                        <a asp-area="" asp-controller="Product" asp-action="Index" class="btn btn-secondary">Prekliči</a>
-                    </div>
-                </form>}
+                            </form>}
     </div>
 </div>
 
