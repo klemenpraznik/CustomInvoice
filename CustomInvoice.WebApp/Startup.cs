@@ -15,6 +15,7 @@ using Microsoft.Extensions.Hosting;
 using CustomInvoice.WebApp.Controllers.API_controllers;
 using System.Globalization;
 using Rotativa.AspNetCore;
+using Microsoft.AspNetCore.Http;
 
 namespace CustomInvoice.WebApp
 {
@@ -39,6 +40,11 @@ namespace CustomInvoice.WebApp
             services.AddRazorPages();
 
             services.AddSwaggerGen();
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -59,6 +65,7 @@ namespace CustomInvoice.WebApp
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseCookiePolicy();
 
             var swaggerOptions = new SwaggerOptions();
             Configuration.GetSection(nameof(SwaggerOptions)).Bind(swaggerOptions);
